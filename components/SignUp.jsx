@@ -70,7 +70,7 @@ const SignUp = () => {
       // Sign-in successful
       alert("Sign-Up successful");
 
-      router.push("/");
+      router.push(`/SignIn?role=${role}`);
     } catch (err) {
       alert("An unexpected error occurred. Please try again later.");
     }

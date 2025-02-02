@@ -41,9 +41,12 @@ export async function POST(request) {
   
       // Authentication successful
       return new Response(
-        JSON.stringify({ message: 'Authentication successful', staff: { id: staff.StaffID, role: staff.StaffRole } }),
+        JSON.stringify({ 
+            message: 'Authentication successful', 
+            staff: { id: staff.StaffID, name: staff.StaffName, role }
+        }),
         { status: 200 }
-      );
+    );
     } catch (error) {
       console.error('Error during authentication:', error);
       return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });

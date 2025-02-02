@@ -32,10 +32,12 @@ const SignIn = () => {
         return;
       }
 
+      const sessionData = data.staff;
+      console.log(sessionData);
       // Sign-in successful
       alert("Sign-In successful");
-
-      router.push("/");
+      sessionStorage.setItem("userData", JSON.stringify(sessionData));
+      router.push("/MainDashboard");
     } catch (err) {
       alert("An unexpected error occurred. Please try again later.");
     }
