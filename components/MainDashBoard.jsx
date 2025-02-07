@@ -1,41 +1,66 @@
 "use client";
-import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { NavBar } from "./commoms/NavBar";
+import { useSession } from "next-auth/react";
 
 export const MainDashBoard = () => {
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const data = [
-    "Staff",
-    "Purchase Products",
-    "Inventory",
-    "Manage Products",
-    "Order Confirmation",
-    "Promotions",
-    "Customers",
-    "Feedbacks",
-  ];
+  const [staff, setStaff] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { data: session, status } = useSession();
+
+  // Fetch staff data when component mounts
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        const response = await fetch("/api/staff"); // Call the GET route
+        const data = await response.json();
+
+        if (response.ok) {
+          setStaff(data); // Store the staff data in state
+        } else {
+          setError(data.error || "An error occurred while fetching staff.");
+        }
+      } catch (err) {
+        setError("Failed to fetch staff data");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStaff();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
-    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-[725px]">
-      <div className="flex flex-row gap-7 p-3 border-x-0 border-t-0 border-b-2 border-black border-opacity-15">
-        <Image
-          src={"/assets/profile.png"}
-          width={50}
-          height={50}
-          alt="profile"
-        />
-        <div className="font-semibold">
-          <h1 className="text-[20px]">{userData.name}</h1>
-          <h1 className="text-[14px]">{userData.role}</h1>
+    <div className="flex">
+      <NavBar />
+      {session.user.role === "Admin" ? (
+        <div>
+          <h1>Staff</h1>
+          {staff.length === 0 ? (
+            <p>No staff available</p>
+          ) : (
+            <ul>
+              {staff.map((member) => (
+                <li key={member.StaffID}>
+                  {member.StaffName} - {member.StaffEmail} - {member.StaffRole}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-      </div>
-      {data.map((item, index) => (
-        <button
-          key={index}
-          className="p-5 pl-6 text-[20px] font-semibold border-x-0 border-t-0 border-b-2 border-black border-opacity-15 w-full text-left hover:bg-[#bca081]"
-        >
-          {item}
-        </button>
-      ))}
+      ) : (
+        <div>You Cannot Access this page</div>
+      )}
     </div>
   );
 };

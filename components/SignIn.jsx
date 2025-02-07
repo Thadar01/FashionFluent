@@ -3,6 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -15,28 +16,27 @@ const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
-      const res = await fetch("/api/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, passwords, role }),
+      console.log("Attempting sign-in with credentials:", {
+        email,
+        passwords,
+        role,
+      });
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password: passwords,
+        role,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        // Display error alert
-        alert(data.error || "An error occurred during sign-in");
-        setEmail(""); // Clear email
-        setPasswords(""); // Clear passwords
-
+      console.log("SignIn result", result); // Debugging log
+      if (result?.error) {
+        alert(result.error);
+        setEmail("");
+        setPasswords("");
         return;
       }
 
-      const sessionData = data.staff;
-      console.log(sessionData);
-      // Sign-in successful
       alert("Sign-In successful");
-      sessionStorage.setItem("userData", JSON.stringify(sessionData));
       router.push("/MainDashboard");
     } catch (err) {
       alert("An unexpected error occurred. Please try again later.");
