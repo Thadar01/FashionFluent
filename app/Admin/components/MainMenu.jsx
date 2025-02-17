@@ -10,13 +10,13 @@ export const MainMenu = () => {
       </div>
       <div className="flex h-full flex-col gap-10 justify-center items-center w-[30%]">
         <Link
-          href={{ pathname: "/SignIn", query: { role: "Admin" } }}
+          href={{ pathname: "/Admin/SignIn", query: { role: "Admin" } }}
           className="border-2 border-[#4C4135] py-3 px-6 rounded-md text-[20px] bg-[#E2B380] font-semibold hover:bg-[#e7c7a5] hover:scale-105 transition-transform duration-300 ease-in-out"
         >
           Sign In As Admin
         </Link>
         <Link
-          href={{ pathname: "/SignIn", query: { role: "Staff" } }}
+          href={{ pathname: "/Admin/SignIn", query: { role: "Staff" } }}
           className="border-2 border-[#4C4135] py-3 px-8 rounded-md text-[20px] bg-[#E2B380] font-semibold hover:bg-[#e7c7a5] hover:scale-105 transition-transform duration-300 ease-in-out"
         >
           Sign In As Staff

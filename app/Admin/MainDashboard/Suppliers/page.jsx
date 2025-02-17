@@ -1,10 +1,11 @@
-import { MainDashBoard } from "../../components/MainDashBoard";
+"use client";
 import React from "react";
+import Suppliers from "../../components/Suppliers";
 
 const page = () => {
   return (
     <div>
-      <MainDashBoard />
+      <Suppliers />
     </div>
   );
 };

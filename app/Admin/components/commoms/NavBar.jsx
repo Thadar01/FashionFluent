@@ -11,11 +11,13 @@ export const NavBar = () => {
 
   const data = [
     "Staff",
-    "Purchase Products",
-    "Inventory",
-    "Manage Products",
-    "Order Confirmation",
+    "Suppliers",
+    "Categories",
+    "Delivery",
     "Promotions",
+    "Manage Products",
+    "Purchase Products",
+    "Order Confirmation",
     "Customers",
     "Feedbacks",
   ];
@@ -34,7 +36,8 @@ export const NavBar = () => {
       router.push("/MainDashboard");
     }
     const item = data[index];
-    const pathName = `/MainDashboard/${item.replace(/\s+/g, "")}`;
+    const pathName = `/Admin/MainDashboard/${item.replace(/\s+/g, "")}`;
+    router.push(pathName);
     console.log(pathName);
   };
 

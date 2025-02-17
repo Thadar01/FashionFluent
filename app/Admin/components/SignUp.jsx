@@ -70,7 +70,7 @@ const SignUp = () => {
       // Sign-in successful
       alert("Sign-Up successful");
 
-      router.push(`/SignIn?role=${role}`);
+      router.push(`/Admin/SignIn?role=${role}`);
     } catch (err) {
       alert("An unexpected error occurred. Please try again later.");
     }
@@ -153,7 +153,7 @@ const SignUp = () => {
           </div>
 
           <Link
-            href={{ pathname: "/SignIn", query: { role: "Staff" } }}
+            href={{ pathname: "/SAdmin/ignIn", query: { role: "Staff" } }}
             className="underline mt-[-20px] hover:text-[#a14d31]"
           >
             Already Have An Account? Sign In

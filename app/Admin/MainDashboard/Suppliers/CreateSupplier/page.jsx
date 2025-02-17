@@ -1,10 +1,9 @@
-import SignUp from "../../components/SignUp";
 import React from "react";
-
+import CreateSupplier from "../../../components/CreateSupplier";
 const page = () => {
   return (
     <div>
-      <SignUp />
+      <CreateSupplier />
     </div>
   );
 };
