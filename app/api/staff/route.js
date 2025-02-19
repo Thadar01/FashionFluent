@@ -1,21 +1,24 @@
-// app/api/staff/route.js
-import { NextResponse } from "next/server";
 import db from "../../../lib/db";
 
-export async function GET() {
+export async function GET(req) {
   try {
-    const query = "SELECT * FROM staff"; // Query to get all staff
-    const [staffData] = await db.execute(query); // Execute the query to fetch staff data
+    // Extract search query from request URL
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("q"); // `q` will be the search term (e.g., name or email)
 
-    // If no staff are found, return a message
-    if (staffData.length === 0) {
-      return NextResponse.json({ message: "No staff found" }, { status: 404 });
+    let searchQuery = "SELECT * FROM staff";
+    let queryParams = [];
+
+    if (query) {
+      searchQuery += " WHERE StaffName LIKE ? OR StaffEmail LIKE ?";
+      queryParams = [`%${query}%`, `%${query}%`];
     }
 
-    // Return the staff data as JSON response
-    return NextResponse.json(staffData, { status: 200 });
+    const [rows] = await db.execute(searchQuery, queryParams);
+    
+    return new Response(JSON.stringify(rows), { status: 200 });
   } catch (error) {
     console.error("Error fetching staff:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }

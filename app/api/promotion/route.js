@@ -40,20 +40,25 @@ export async function POST(request) {
     });
   }
 }
-export async function GET() {
+export async function GET(req) {
   try {
-    const query = "SELECT * FROM promotions"; // Query to get all staff
-    const [promotionData] = await db.execute(query); // Execute the query to fetch staff data
+    // Extract search query from request URL
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("q"); // `q` will be the search term (e.g., name or email)
 
-    // If no staff are found, return a message
-    if (promotionData.length === 0) {
-      return NextResponse.json({ message: "No promotion found" }, { status: 404 });
+    let searchQuery = "SELECT * FROM promotions";
+    let queryParams = [];
+
+    if (query) {
+      searchQuery += " WHERE PromotionTitle LIKE ?";
+      queryParams = [`%${query}%`, `%${query}%`];
     }
 
-    // Return the staff data as JSON response
-    return NextResponse.json(promotionData, { status: 200 });
+    const [rows] = await db.execute(searchQuery, queryParams);
+    
+    return new Response(JSON.stringify(rows), { status: 200 });
   } catch (error) {
-    console.error("Error fetching promotion:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("Error fetching staff:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }

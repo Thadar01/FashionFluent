@@ -33,12 +33,13 @@ export const NavBar = () => {
 
   const handleClick = (index) => {
     if (index === 0) {
-      router.push("/MainDashboard");
+      router.push("/Admin/MainDashboard");
+    } else {
+      const item = data[index];
+      const pathName = `/Admin/MainDashboard/${item.replace(/\s+/g, "")}`;
+      router.push(pathName);
+      console.log(pathName);
     }
-    const item = data[index];
-    const pathName = `/Admin/MainDashboard/${item.replace(/\s+/g, "")}`;
-    router.push(pathName);
-    console.log(pathName);
   };
 
   const handleLogout = () => {

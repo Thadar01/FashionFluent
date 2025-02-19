@@ -46,7 +46,7 @@ const CreateSupplier = () => {
       }
 
       alert("Supplier added successfully");
-      router.push("/MainDashboard/Suppliers");
+      router.push("/Admin/MainDashboard/Suppliers");
     } catch (err) {
       console.error(err);
       alert("An unexpected error occurred. Please try again later.");
