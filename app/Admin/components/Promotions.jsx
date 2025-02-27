@@ -2,23 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { NavBar } from "./commoms/NavBar";
 import CreatePromotion from "./CreatePromotion";
+import EditPromotion from "./EditPromotion";
 
 const Promotions = () => {
   const [isModel, setIsModel] = useState(false);
-  const [promotion, setPromotion] = useState([]);
+  const [promotions, setPromotions] = useState([]);
+  const [filteredPromotions, setFilteredPromotions] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [id, setID] = useState(null);
 
   useEffect(() => {
-    const fetchPromotion = async () => {
+    const fetchPromotions = async () => {
       try {
-        const response = await fetch("/api/promotion"); // Call the GET route
+        const response = await fetch("/api/promotion");
         const data = await response.json();
 
         if (response.ok) {
-          setPromotion(data); // Store the staff data in state
+          setPromotions(data);
+          setFilteredPromotions(data);
         } else {
-          setError(data.error || "An error occurred while fetching promotion.");
+          setError(
+            data.error || "An error occurred while fetching promotions."
+          );
         }
       } catch (err) {
         setError("Failed to fetch promotion data");
@@ -28,15 +36,35 @@ const Promotions = () => {
       }
     };
 
-    fetchPromotion();
+    fetchPromotions();
   }, [isModel]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!searchQuery) {
+        setFilteredPromotions(promotions);
+      } else {
+        setFilteredPromotions(
+          promotions.filter(
+            (promo) =>
+              promo.PromotionTitle.toLowerCase().includes(
+                searchQuery.toLowerCase()
+              ) ||
+              promo.PromotionPercent.toString().includes(searchQuery) ||
+              promo.StaffID.toString().includes(searchQuery)
+          )
+        );
+      }
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery, promotions]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const handleDelete = async (promotionID) => {
-    if (!promotionID) return; // Ensure ID exists before making a request
+    if (!promotionID) return;
     try {
       const response = await fetch(`/api/promotion/${promotionID}`, {
         method: "DELETE",
@@ -47,52 +75,99 @@ const Promotions = () => {
         throw new Error(errorData.error || "Failed to delete promotion");
       }
 
-      setPromotion((prevpromotion) =>
-        prevpromotion.filter((s) => s.PromotionID !== promotionID)
-      ); // Remove deleted promotion from list
+      setPromotions((prev) =>
+        prev.filter((promo) => promo.PromotionID !== promotionID)
+      );
     } catch (err) {
       setError(err.message);
       console.error("Delete error:", err);
     }
   };
+  const handleEdit = (id) => {
+    setEdit(true);
+    setID(id);
+  };
   return (
     <div className="flex">
-      <>
-        <NavBar />
-        {loading && <div></div>}
-      </>
-      <div className="flex flex-col">
-        <div>
-          <div>Promotions</div>
-          <button onClick={() => setIsModel(!isModel)}>Add</button>
+      <NavBar />
+      <div className="w-full m-4 flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-[30px] font-semibold">Promotions</h2>
+          <button
+            className="bg-blue-300 h-10 w-fit p-2 rounded-md"
+            onClick={() => setIsModel(!isModel)}
+          >
+            Add
+          </button>
         </div>
+
         {isModel && (
-          <div>
+          <div className="mt-4">
             <CreatePromotion setIsModel={setIsModel} />
           </div>
         )}
 
-        <div>
-          {promotion.length === 0 ? (
-            <p>No staff available</p>
-          ) : (
-            <div className="flex flex-wrap gap-10">
-              {promotion.map((promo) => (
-                <div
-                  key={promo.PromotionID}
-                  className="border-2 border-black rounded-xl p-2"
-                >
-                  <p>PromotionID:{promo.PromotionID}</p>
-                  <p>Percent:{promo.PromotionPercent}</p>
-                  <p>Title:{promo.PromotionTitle}</p>
-                  <p>Staff:{promo.StaffID}</p>
+        {edit && id && <EditPromotion id={id} setEdit={setEdit} />}
 
-                  <button
-                    className="bg-red-400 p-2 border-2 border-black"
-                    onClick={() => handleDelete(promo.PromotionID)}
-                  >
-                    Delete
-                  </button>
+        <input
+          type="text"
+          placeholder="Search by title, percent, or staff ID..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="p-2 border border-gray-400 rounded mt-4 w-[20%]"
+        />
+
+        <div className="w-full mt-4">
+          {filteredPromotions.length === 0 ? (
+            <p className="p-4">No promotions available</p>
+          ) : (
+            <div>
+              {/* Header Row with Borders */}
+              <div className="grid grid-cols-4 w-[70%]">
+                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                  ID
+                </div>
+                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                  Title
+                </div>
+                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                  Percent
+                </div>
+                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                  Staff ID
+                </div>
+              </div>
+
+              {filteredPromotions.map((promo) => (
+                <div key={promo.PromotionID} className="flex">
+                  <div className="grid grid-cols-4 w-[70%]">
+                    <div className="border border-black text-center py-2">
+                      {promo.PromotionID}
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {promo.PromotionTitle}
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {promo.PromotionPercent}%
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {promo.StaffID}
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      className="ml-2 text-red-600 hover:underline"
+                      onClick={() => handleDelete(promo.PromotionID)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="ml-2 text-blue-600 hover:underline"
+                      onClick={() => handleEdit(promo.PromotionID)}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

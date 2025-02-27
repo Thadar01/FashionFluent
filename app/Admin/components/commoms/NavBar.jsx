@@ -22,12 +22,8 @@ export const NavBar = () => {
     "Feedbacks",
   ];
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
   if (!session) {
-    router.push("/SignIn");
+    router.push("/Admin/SignIn");
     return null;
   }
 

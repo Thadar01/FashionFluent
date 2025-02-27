@@ -1,41 +1,78 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavBar } from "./commoms/NavBar";
 import CreateCategory from "./CreateCategory";
+import EditCategory from "./EditCategory";
 
 const Categories = () => {
   const [isModel, setIsModel] = useState(false);
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchInputRef = useRef(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [categoryId, setCategoryId] = useState(null); // New state to store the category ID
+
+  const fetchCategory = async () => {
+    try {
+      const response = await fetch("/api/category"); // Call the GET route
+      const data = await response.json();
+
+      if (response.ok) {
+        setCategory(data); // Store the category data in state
+      } else {
+        setError(data.error || "An error occurred while fetching category.");
+      }
+    } catch (err) {
+      setError("Failed to fetch category data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const response = await fetch("/api/category"); // Call the GET route
-        const data = await response.json();
-
-        if (response.ok) {
-          setCategory(data); // Store the staff data in state
-        } else {
-          setError(data.error || "An error occurred while fetching category.");
-        }
-      } catch (err) {
-        setError("Failed to fetch category data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCategory();
     const interval = setInterval(fetchCategory, 5000);
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [isModel]);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      fetchCategory(); // Refetch all categories when search input is cleared
+      return;
+    }
+
+    const fetchSearchedCategory = async () => {
+      setSearchLoading(true);
+      try {
+        const response = await fetch(`/api/category?q=${searchTerm}`);
+        const data = await response.json();
+        if (response.ok) {
+          setCategory(data);
+          setError(null);
+        } else {
+          setError(data.error || "An error occurred while searching category.");
+        }
+      } catch (err) {
+        setError("Failed to search category data");
+        console.error(err);
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    fetchSearchedCategory();
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [category]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -53,45 +90,85 @@ const Categories = () => {
         throw new Error(errorData.error || "Failed to delete category");
       }
 
-      setCategory((prevcategory) =>
-        prevcategory.filter((s) => s.CategoryID !== categoryID)
-      ); // Remove deleted staff from list
+      setCategory((prevCategory) =>
+        prevCategory.filter((cat) => cat.CategoryID !== categoryID)
+      ); // Remove deleted category from the list
     } catch (err) {
       setError(err.message);
       console.error("Delete error:", err);
     }
   };
+
+  const handleEdit = (categoryID) => {
+    setCategoryId(categoryID); // Store the ID of the category to be edited
+    setEdit(true); // Show the Edit form
+  };
+
   return (
     <div className="flex">
       <NavBar />
-      <div className="flex flex-col">
+      <div className="w-full m-4 flex flex-col gap-4">
+        <h1 className="text-[30px] font-semibold">Categories</h1>
         <div>
-          <div>Categories</div>
-          <button onClick={() => setIsModel(!isModel)}>Add</button>
+          {searchLoading && <p>Searching...</p>}
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search by name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border p-2 my-3 w-[20%]"
+          />
+          <button
+            onClick={() => setIsModel(!isModel)}
+            className="bg-blue-300 h-10 w-fit p-2 rounded-md"
+          >
+            Add
+          </button>
         </div>
         {isModel && (
           <div>
             <CreateCategory setIsModel={setIsModel} />
           </div>
         )}
-        <div>
+        {edit && categoryId && (
+          <div>
+            <EditCategory setEdit={setEdit} id={categoryId} />
+          </div>
+        )}
+        <div className="w-full">
           {category.length === 0 ? (
-            <p>No Category available</p>
+            <p className="p-4">No categories available</p>
           ) : (
-            <div className="flex flex-wrap gap-10">
-              {category.map((cat) => (
-                <div
-                  key={cat.CategoryID}
-                  className="border-2 border-black rounded-xl p-2"
-                >
-                  <p>name:{cat.CategoryName}</p>
+            <div>
+              {/* Header Row with Borders */}
+              <div className="grid grid-cols-1 w-[70%]">
+                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                  Category Name
+                </div>
+              </div>
 
-                  <button
-                    className="bg-red-400 p-2 border-2 border-black"
-                    onClick={() => handleDelete(cat.CategoryID)}
-                  >
-                    Delete
-                  </button>
+              {category.map((cat) => (
+                <div key={cat.CategoryID} className="flex">
+                  <div className="grid grid-cols-1 w-[70%]">
+                    <div className="border border-black text-center py-2">
+                      {cat.CategoryName}
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      className="ml-2 text-red-600 hover:underline"
+                      onClick={() => handleDelete(cat.CategoryID)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="ml-2 text-blue-600 hover:underline"
+                      onClick={() => handleEdit(cat.CategoryID)}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

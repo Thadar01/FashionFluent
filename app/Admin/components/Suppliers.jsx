@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { NavBar } from "./commoms/NavBar";
 
@@ -8,40 +8,74 @@ const Suppliers = () => {
   const [supplier, setSupplier] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchInputRef = useRef(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  const fetchSupplier = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/supplier"); // Fetch all suppliers
+      const data = await response.json();
+
+      if (response.ok) {
+        setSupplier(data);
+        setError(null);
+      } else {
+        setError(data.error || "An error occurred while fetching supplier.");
+      }
+    } catch (err) {
+      setError("Failed to fetch supplier data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSupplier();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      fetchSupplier(); // Refetch all suppliers when search input is cleared
+      return;
+    }
+
+    const fetchSearchSupplier = async () => {
+      setSearchLoading(true);
+      try {
+        const response = await fetch(`/api/supplier?q=${searchTerm}`);
+        const data = await response.json();
+        if (response.ok) {
+          setSupplier(data);
+          setError(null);
+        } else {
+          setError(data.error || "An error occurred while searching supplier.");
+        }
+      } catch (err) {
+        setError("Failed to search supplier data");
+        console.error(err);
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    fetchSearchSupplier();
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [supplier]);
 
   const handleClick = () => {
     router.push("/Admin/MainDashboard/Suppliers/CreateSupplier");
   };
-  useEffect(() => {
-    const fetchSupplier = async () => {
-      try {
-        const response = await fetch("/api/supplier"); // Call the GET route
-        const data = await response.json();
 
-        if (response.ok) {
-          setSupplier(data); // Store the staff data in state
-        } else {
-          setError(data.error || "An error occurred while fetching supplier.");
-        }
-      } catch (err) {
-        setError("Failed to fetch supplier data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSupplier();
-  }, []);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
   const handleDelete = async (supplierID) => {
-    if (!supplierID) return; // Ensure ID exists before making a request
+    if (!supplierID) return;
     try {
       const response = await fetch(`/api/supplier/${supplierID}`, {
         method: "DELETE",
@@ -49,45 +83,101 @@ const Suppliers = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to delete staff");
+        throw new Error(errorData.error || "Failed to delete supplier");
       }
 
       setSupplier((prevSupplier) =>
         prevSupplier.filter((s) => s.SupplierID !== supplierID)
-      ); // Remove deleted staff from list
+      );
     } catch (err) {
       setError(err.message);
       console.error("Delete error:", err);
     }
   };
+
+  const handleEdit = (supplierID) => {
+    if (!supplierID) return; // Ensure supplierID is valid
+    router.push(
+      `/Admin/MainDashboard/Suppliers/CreateSupplier?id=${supplierID}&edit=${true}`
+    );
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="flex">
       <NavBar />
-      <div className="flex flex-col gap-5">
-        <h1>Suppliers</h1>
-        <button className="bg-blue-300 h-10" onClick={() => handleClick()}>
+      {searchLoading && <div>Searching...</div>}
+      <div className="w-full m-4 flex flex-col gap-4">
+        <h1 className="text-[30px] font-semibold">Suppliers</h1>
+        <input
+          ref={searchInputRef}
+          type="text"
+          placeholder="Search by name or email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border p-2 my-3 w-[20%]"
+        />
+        <button
+          className="bg-blue-300 h-10 w-fit p-2 rounded-md"
+          onClick={handleClick}
+        >
           Create
         </button>
-        <div>
+
+        <div className="w-full">
+          {/* Header Row with Borders */}
+          <div className="grid grid-cols-4 w-[70%]">
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Name
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Phone
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Email
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Address
+            </div>
+          </div>
+
           {supplier.length === 0 ? (
-            <p>No staff available</p>
+            <p className="p-4">No supplier available</p>
           ) : (
-            <div className="flex flex-wrap gap-10">
+            <div>
               {supplier.map((sup) => (
-                <div
-                  key={sup.SupplierID}
-                  className="border-2 border-black rounded-xl p-2"
-                >
-                  <p>name:{sup.SupplierName}</p>
-                  <p>phone:{sup.SupplierPhoneNo}</p>
-                  <p>email:{sup.SupplierEmail}</p>
-                  <p>address:{sup.SupplierAddress}</p>
-                  <button
-                    className="bg-red-400 p-2 border-2 border-black"
-                    onClick={() => handleDelete(sup.SupplierID)}
-                  >
-                    Delete
-                  </button>
+                <div key={sup.SupplierID} className="flex">
+                  <div className="grid grid-cols-4 w-[70%]">
+                    <div className="border border-black text-center py-2">
+                      {sup.SupplierName}
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {sup.SupplierPhoneNo}
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {sup.SupplierEmail}
+                    </div>
+                    <div className="border border-black text-center py-2">
+                      {sup.SupplierAddress}
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      className="ml-2 text-red-600 hover:underline"
+                      onClick={() => handleDelete(sup.SupplierID)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="ml-2 text-blue-600 hover:underline"
+                      onClick={() => handleEdit(sup.SupplierID)}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

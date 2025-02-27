@@ -68,7 +68,7 @@ export async function GET(req) {
 
     if (query) {
       searchQuery += " WHERE CategoryName LIKE ?";
-      queryParams = [`%${query}%`, `%${query}%`];
+      queryParams = [`%${query}%`];
     }
 
     const [rows] = await db.execute(searchQuery, queryParams);

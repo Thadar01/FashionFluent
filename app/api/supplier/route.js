@@ -70,7 +70,7 @@ export async function GET(req) {
 
     if (query) {
       searchQuery += " WHERE SupplierName LIKE  ?";
-      queryParams = [`%${query}%`, `%${query}%`];
+      queryParams = [`%${query}%`];
     }
 
     const [rows] = await db.execute(searchQuery, queryParams);
