@@ -7,6 +7,7 @@ const EditDelivery = ({ setEdit, id }) => {
     city: "",
     cost: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch existing delivery data based on the id prop
@@ -27,6 +28,8 @@ const EditDelivery = ({ setEdit, id }) => {
       } catch (err) {
         console.error("Error fetching delivery data:", err);
         alert("Failed to fetch delivery data");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -66,33 +69,65 @@ const EditDelivery = ({ setEdit, id }) => {
   };
 
   return (
-    <div className="border-2 border-black p-4">
-      <div>Edit Delivery</div>
+    <div className="border-2 border-black p-6 bg-white rounded-lg shadow-lg w-[400px]">
+      <h2 className="text-[24px] font-semibold mb-4">Edit Delivery</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {/* Region Input */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Region</label>
+            <input
+              value={delivery.region}
+              onChange={(e) =>
+                setDelivery({ ...delivery, region: e.target.value })
+              }
+              className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            />
+          </div>
 
-      <p>Region</p>
-      <input
-        value={delivery.region}
-        onChange={(e) => setDelivery({ ...delivery, region: e.target.value })}
-      />
+          {/* City Input */}
+          <div>
+            <label className="block text-sm font-medium mb-1">City</label>
+            <input
+              value={delivery.city}
+              onChange={(e) =>
+                setDelivery({ ...delivery, city: e.target.value })
+              }
+              className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            />
+          </div>
 
-      <p>City</p>
-      <input
-        value={delivery.city}
-        onChange={(e) => setDelivery({ ...delivery, city: e.target.value })}
-      />
+          {/* Cost Input */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Cost</label>
+            <input
+              value={delivery.cost}
+              onChange={(e) =>
+                setDelivery({ ...delivery, cost: e.target.value })
+              }
+              className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            />
+          </div>
 
-      <p>Cost</p>
-      <input
-        value={delivery.cost}
-        onChange={(e) => setDelivery({ ...delivery, cost: e.target.value })}
-      />
-
-      <div className="mt-4">
-        <button className="mr-10" onClick={handleUpdateDelivery}>
-          Update
-        </button>
-        <button onClick={() => setEdit(false)}>Close</button>
-      </div>
+          {/* Buttons */}
+          <div className="flex justify-end gap-4 mt-4">
+            <button
+              className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+              onClick={() => handleUpdateDelivery()}
+            >
+              Edit
+            </button>
+            <button
+              className="bg-gray-300 px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-gray-400"
+              onClick={() => setEdit(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

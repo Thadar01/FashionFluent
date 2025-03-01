@@ -97,7 +97,7 @@ const ManageProducts = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <div className="flex w-full">
+        <div className="flex w-full justify-center items-center">
           {filteredProducts.length === 0 ? (
             loading ? (
               <p className="p-4">loading...</p>
@@ -105,7 +105,7 @@ const ManageProducts = () => {
               <p className="p-4">No Product available</p>
             )
           ) : (
-            <div className="flex flex-wrap gap-10 w-full justify-around">
+            <div className="flex flex-wrap gap-10 w-full  justify-between">
               {filteredProducts.map((p) => (
                 <div
                   key={p.ProductID}

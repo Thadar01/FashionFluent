@@ -74,66 +74,80 @@ const EditSupplier = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="flex">
       <NavBar />
-
-      <div className="flex h-[728px]">
-        <div className="flex h-full flex-col gap-5 justify-center items-center">
-          <div className="w-[90%] flex flex-col gap-3">
-            <div>
-              <p>Supplier Name</p>
-              <p>{id}</p>
+      <div className="m-4 flex flex-col gap-5 w-[400px]">
+        {/* Title */}
+        <p className="text-[30px] font-semibold">Add Supplier</p>
+        {loading ? (
+          <p>loading..</p>
+        ) : (
+          <>
+            {" "}
+            {/* Supplier Name Input */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Supplier Name</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={supplier.supplierName}
                 onChange={(e) =>
                   setSupplier({ ...supplier, supplierName: e.target.value })
                 }
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-            <div>
-              <p>Email</p>
+            {/* Email Input */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Email</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={supplier.email}
                 onChange={(e) =>
                   setSupplier({ ...supplier, email: e.target.value })
                 }
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-            <div>
-              <p>Phone No</p>
+            {/* Phone No Input */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Phone No</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={supplier.phone}
                 onChange={(e) =>
                   setSupplier({ ...supplier, phone: e.target.value })
                 }
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-            <div>
-              <p>Address</p>
+            {/* Address Textarea */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Address</label>
               <textarea
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={supplier.address}
                 onChange={(e) =>
                   setSupplier({ ...supplier, address: e.target.value })
                 }
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-          </div>
-
-          <button
-            onClick={handleEdit}
-            className="border-4 border-[#4C4135] rounded-lg py-2 px-6 text-[16px] hover:bg-[#ffd2a267] font-semibold"
-          >
-            Edit
-          </button>
-        </div>
+            {/* Add Button */}
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                onClick={handleEdit}
+                className="bg-[#f5cba9] p-2  border-2 border-black rounded-xl text-[18px] font-semibold hover:bg-[#f6be90] w-[20%] "
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => router.push("/Admin/MainDashboard/Suppliers")}
+                className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+              >
+                Back
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

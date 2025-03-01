@@ -105,82 +105,86 @@ const Categories = () => {
   };
 
   return (
-    <div className="flex">
-      <NavBar />
-      <div className="w-full m-4 flex flex-col gap-4">
-        <div className="w-full flex justify-between">
-          <h1 className="text-[30px] font-semibold">Categories</h1>
-          <button
-            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
-            onClick={() => setIsModel(!isModel)}
-          >
-            Add
-          </button>
-        </div>{" "}
-        <div>
-          {searchLoading && <p>Searching...</p>}
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Search by name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border p-2 my-3 w-[20%]"
-          />
-        </div>
-        {isModel && (
-          <div>
-            <CreateCategory setIsModel={setIsModel} />
+    <div>
+      <div className={`flex ${isModel || edit ? "filter blur-sm" : ""}`}>
+        <NavBar />
+        <div className="w-full m-4 flex flex-col gap-4">
+          {/* Background Content (will be blurred when model is open) */}
+          <div className="w-full flex justify-between">
+            <h1 className="text-[30px] font-semibold">Categories</h1>
+            <button
+              className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+              onClick={() => setIsModel(!isModel)}
+            >
+              Add
+            </button>
           </div>
-        )}
-        {edit && categoryId && (
           <div>
-            <EditCategory setEdit={setEdit} id={categoryId} />
+            {searchLoading && <p>Searching...</p>}
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search by name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="border p-2 my-3 w-[20%]"
+            />
           </div>
-        )}
-        <div className="w-full">
-          <div className="grid grid-cols-1 w-[70%]">
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-              Category Name
+          <div className="w-[50%]">
+            <div className="grid grid-cols-1 w-[70%]">
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Category Name
+              </div>
             </div>
-          </div>
-          {category.length === 0 ? (
-            loading ? (
-              <p className="p-4">loading...</p>
+            {category.length === 0 ? (
+              loading ? (
+                <p className="p-4">loading...</p>
+              ) : (
+                <p className="p-4">No category available</p>
+              )
             ) : (
-              <p className="p-4">No category available</p>
-            )
-          ) : (
-            <div>
-              {/* Header Row with Borders */}
-
-              {category.map((cat) => (
-                <div key={cat.CategoryID} className="flex">
-                  <div className="grid grid-cols-1 w-[70%]">
-                    <div className="border border-black text-center py-2">
-                      {cat.CategoryName}
+              <div>
+                {category.map((cat) => (
+                  <div key={cat.CategoryID} className="flex">
+                    <div className="grid grid-cols-1 w-[70%]">
+                      <div className="border border-black text-center py-2">
+                        {cat.CategoryName}
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        className="ml-2 text-red-600 hover:underline"
+                        onClick={() => handleDelete(cat.CategoryID)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="ml-2 text-blue-600 hover:underline"
+                        onClick={() => handleEdit(cat.CategoryID)}
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
-                  <div className="flex justify-end">
-                    <button
-                      className="ml-2 text-red-600 hover:underline"
-                      onClick={() => handleDelete(cat.CategoryID)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="ml-2 text-blue-600 hover:underline"
-                      onClick={() => handleEdit(cat.CategoryID)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      {/* Model (rendered outside the blurred container) */}
+      {isModel && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <CreateCategory setIsModel={setIsModel} />
+        </div>
+      )}
+
+      {/* Edit Model (rendered outside the blurred container) */}
+      {edit && categoryId && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <EditCategory setEdit={setEdit} id={categoryId} />
+        </div>
+      )}
     </div>
   );
 };

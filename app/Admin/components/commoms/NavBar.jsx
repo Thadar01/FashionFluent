@@ -52,7 +52,8 @@ export const NavBar = () => {
   };
 
   return (
-    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-[725px] relative">
+    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-[725px] sticky top-0">
+      {/* Profile Section */}
       <div className="flex flex-row gap-7 p-3 border-x-0 border-t-0 border-b-2 border-black border-opacity-15">
         <Image
           src={"/assets/profile.png"}
@@ -65,6 +66,8 @@ export const NavBar = () => {
           <h1 className="text-[14px]">{session.user.role}</h1>
         </div>
       </div>
+
+      {/* Navigation Buttons */}
       {data.map((item, index) => (
         <button
           key={index}
@@ -74,8 +77,10 @@ export const NavBar = () => {
           {item}
         </button>
       ))}
+
+      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="bg-white w-[40%] h-[80px] border-2 border-black absolute bottom-7 left-20 transform -translate-x-1/2 z-3 mb-3 rounded-2xl  flex flex-col justify-around transition-transform ">
+        <div className="bg-white w-[40%] h-[80px] border-2 border-black absolute bottom-7 left-20 transform -translate-x-1/2 z-3 mb-3 rounded-2xl flex flex-col justify-around transition-transform">
           <button className="text-left pl-3 hover:bg-gray-300 h-[50%] rounded-t-2xl border-t-0 border-x-0 border-b-2 border-gray-700">
             Profile
           </button>
@@ -88,6 +93,7 @@ export const NavBar = () => {
         </div>
       )}
 
+      {/* Settings Button */}
       <button
         className="absolute bottom-1 left-5 transform -translate-x-1/2 z-3 mb-3"
         onClick={() => setOpen(!isOpen)}

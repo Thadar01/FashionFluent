@@ -12,6 +12,7 @@ export async function POST(request) {
     const colors = formData.get("colors");
     const stocks = formData.get("stocks");
     const categoryID = formData.get("categoryID");
+    const promotionID=formData.get('promotionID')
 
     // Handle image file upload
     const imageFile = formData.get("image");
@@ -51,8 +52,8 @@ export async function POST(request) {
     }
 
     // Insert the new product
-    const insertQuery = `INSERT INTO products (ProductID, ProductTitle, ProductPrice, Gender, ProductColors, Stock, Image, CategoryID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [newProductID, title, price, gender, colors, stocks, imagePath, categoryID];
+    const insertQuery = `INSERT INTO products (ProductID, ProductTitle, ProductPrice, Gender, ProductColors, Stock, Image, CategoryID,PromotionID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?,?)`;
+    const values = [newProductID, title, price, gender, colors, stocks, imagePath, categoryID,promotionID];
 
     await db.execute(insertQuery, values);
 

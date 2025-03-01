@@ -87,96 +87,106 @@ const Promotions = () => {
     setID(id);
   };
   return (
-    <div className="flex">
-      <NavBar />
-      <div className="w-full m-4 flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-[30px] font-semibold">Promotions</h2>
-          <button
-            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
-            onClick={() => setIsModel(!isModel)}
-          >
-            Add
-          </button>
-        </div>
-
-        {isModel && (
-          <div className="mt-4">
-            <CreatePromotion setIsModel={setIsModel} />
+    <div>
+      {/* Background Content (will be blurred when model or edit is open) */}
+      <div className={`flex ${isModel || edit ? "filter blur-sm" : ""}`}>
+        <NavBar />
+        <div className="w-full m-4 flex flex-col gap-4">
+          {/* Header Section */}
+          <div className="flex justify-between items-center">
+            <h2 className="text-[30px] font-semibold">Promotions</h2>
+            <button
+              className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+              onClick={() => setIsModel(!isModel)}
+            >
+              Add
+            </button>
           </div>
-        )}
 
-        {edit && id && <EditPromotion id={id} setEdit={setEdit} />}
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search by title, percent, or staff ID..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="p-2 border border-gray-400 rounded mt-4 w-[20%]"
+          />
 
-        <input
-          type="text"
-          placeholder="Search by title, percent, or staff ID..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 border border-gray-400 rounded mt-4 w-[20%]"
-        />
-
-        <div className="w-full mt-4">
-          <div className="grid grid-cols-4 w-[70%]">
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-              ID
+          {/* Promotions Table */}
+          <div className="w-full mt-4">
+            <div className="grid grid-cols-4 w-[70%]">
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                ID
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Title
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Percent
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Staff ID
+              </div>
             </div>
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-              Title
-            </div>
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-              Percent
-            </div>
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-              Staff ID
-            </div>
-          </div>
-          {filteredPromotions.length === 0 ? (
-            loading ? (
-              <p className="p-4">loading...</p>
+            {filteredPromotions.length === 0 ? (
+              loading ? (
+                <p className="p-4">loading...</p>
+              ) : (
+                <p className="p-4">No promotion available</p>
+              )
             ) : (
-              <p className="p-4">No promotion available</p>
-            )
-          ) : (
-            <div>
-              {/* Header Row with Borders */}
-
-              {filteredPromotions.map((promo) => (
-                <div key={promo.PromotionID} className="flex">
-                  <div className="grid grid-cols-4 w-[70%]">
-                    <div className="border border-black text-center py-2">
-                      {promo.PromotionID}
+              <div>
+                {filteredPromotions.map((promo) => (
+                  <div key={promo.PromotionID} className="flex">
+                    <div className="grid grid-cols-4 w-[70%]">
+                      <div className="border border-black text-center py-2">
+                        {promo.PromotionID}
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.PromotionTitle}
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.PromotionPercent}%
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.StaffID}
+                      </div>
                     </div>
-                    <div className="border border-black text-center py-2">
-                      {promo.PromotionTitle}
-                    </div>
-                    <div className="border border-black text-center py-2">
-                      {promo.PromotionPercent}%
-                    </div>
-                    <div className="border border-black text-center py-2">
-                      {promo.StaffID}
+                    <div className="flex justify-end">
+                      <button
+                        className="ml-2 text-red-600 hover:underline"
+                        onClick={() => handleDelete(promo.PromotionID)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="ml-2 text-blue-600 hover:underline"
+                        onClick={() => handleEdit(promo.PromotionID)}
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
-                  <div className="flex justify-end">
-                    <button
-                      className="ml-2 text-red-600 hover:underline"
-                      onClick={() => handleDelete(promo.PromotionID)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="ml-2 text-blue-600 hover:underline"
-                      onClick={() => handleEdit(promo.PromotionID)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Create Promotion Modal (rendered outside the blurred container) */}
+      {isModel && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <CreatePromotion setIsModel={setIsModel} />
+        </div>
+      )}
+
+      {/* Edit Promotion Modal (rendered outside the blurred container) */}
+      {edit && id && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <EditPromotion id={id} setEdit={setEdit} />
+        </div>
+      )}
     </div>
   );
 };

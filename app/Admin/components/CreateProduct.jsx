@@ -1,6 +1,8 @@
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const CreateProduct = () => {
+  const router = useRouter();
   const [product, setProduct] = useState({
     title: "",
     price: "",
@@ -75,6 +77,7 @@ const CreateProduct = () => {
     formData.append("colors", product.colors);
     formData.append("stocks", product.stocks);
     formData.append("categoryID", product.categoryID);
+    formData.append("promotionID", product.promotionID);
     formData.append("image", product.image);
 
     try {
@@ -101,6 +104,7 @@ const CreateProduct = () => {
         categoryID: "",
         promotionID: "",
       });
+      router.push("/Admin/MainDashboard/ManageProducts");
     } catch (err) {
       console.error(err);
       alert("An unexpected error occurred. Please try again later.");
@@ -108,23 +112,36 @@ const CreateProduct = () => {
   };
 
   return (
-    <div>
-      <h1>Add Product</h1>
-      <div className="flex flex-col gap-1 border-2 border-black p-10">
-        <p>Title</p>
+    <div className="p-6 w-[400px] flex flex-col gap-4 ">
+      {/* Title */}
+      <h1 className="text-[24px] font-semibold ">Add Product</h1>
+
+      {/* Title Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Title</label>
         <input
           value={product.title}
           onChange={(e) => setProduct({ ...product, title: e.target.value })}
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
-        <p>Price</p>
+      </div>
+
+      {/* Price Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Price</label>
         <input
           value={product.price}
           onChange={(e) => setProduct({ ...product, price: e.target.value })}
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
-        <p>Gender</p>
-        <div>
+      </div>
+
+      {/* Gender Radio Buttons */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Gender</label>
+        <div className="flex gap-4">
           {["Male", "Female", "Unisex"].map((g) => (
-            <label key={g}>
+            <label key={g} className="flex items-center gap-2">
               <input
                 type="radio"
                 name="gender"
@@ -133,70 +150,110 @@ const CreateProduct = () => {
                 onChange={(e) =>
                   setProduct({ ...product, gender: e.target.value })
                 }
+                className="focus:ring-[#f5cba9]"
               />
-              {g}
+              <span>{g}</span>
             </label>
           ))}
         </div>
-        <p>Color</p>
+      </div>
+
+      {/* Color Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Color</label>
         <input
           value={product.colors}
           onChange={(e) => setProduct({ ...product, colors: e.target.value })}
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
-        <p>Stock</p>
+      </div>
+
+      {/* Stock Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Stock</label>
         <input
           type="number"
           value={product.stocks}
           onChange={(e) => setProduct({ ...product, stocks: e.target.value })}
-          className="border p-1 w-full"
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
-        <p>Image</p>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <div>
-          <label>Category</label>
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            <select
-              value={product.categoryID}
-              onChange={(e) =>
-                setProduct({ ...product, categoryID: e.target.value })
-              }
-            >
-              <option value="">Select Category</option>
-              {category.map((c) => (
-                <option key={c.CategoryID} value={c.CategoryID}>
-                  {c.CategoryName}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-        <div>
-          <label>Promotion</label>
-          {loading2 ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            <select
-              value={product.promotionID}
-              onChange={(e) =>
-                setProduct({ ...product, promotionID: e.target.value })
-              }
-            >
-              <option value="">Select Promotion</option>
-              {promotion.map((p) => (
-                <option key={p.PromotionID} value={p.PromotionID}>
-                  {p.PromotionTitle}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-        <button onClick={handleAddProduct}>Add</button>
+      </div>
+
+      {/* Image Upload */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+        />
+      </div>
+
+      {/* Category Dropdown */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Category</label>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <select
+            value={product.categoryID}
+            onChange={(e) =>
+              setProduct({ ...product, categoryID: e.target.value })
+            }
+            className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          >
+            <option value="">Select Category</option>
+            {category.map((c) => (
+              <option key={c.CategoryID} value={c.CategoryID}>
+                {c.CategoryName}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {/* Promotion Dropdown */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Promotion</label>
+        {loading2 ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <select
+            value={product.promotionID}
+            onChange={(e) =>
+              setProduct({ ...product, promotionID: e.target.value })
+            }
+            className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          >
+            <option value="">Select Promotion</option>
+            {promotion.map((p) => (
+              <option key={p.PromotionID} value={p.PromotionID}>
+                {p.PromotionTitle}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {/* Buttons */}
+      <div className="flex justify-end gap-4 mt-4">
+        <button
+          onClick={handleAddProduct}
+          className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+        >
+          Add
+        </button>
+        <button
+          onClick={() => router.push("/Admin/MainDashboard/ManageProducts")}
+          className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+        >
+          Back
+        </button>
       </div>
     </div>
   );

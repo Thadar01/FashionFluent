@@ -60,52 +60,64 @@ const EditStaff = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex">
       <NavBar />
-      <div className="flex h-[728px]">
-        <div className="flex h-full flex-col gap-5 justify-center items-center ">
-          <div className="w-[90%] flex flex-col gap-3">
-            <div>
-              <p>User Name</p>
-              <p>{id}</p>
+      <div className="m-4 flex flex-col gap-5 w-[400px]">
+        {/* Title */}
+        <p className="text-[30px] font-semibold">Edit Staff</p>
+        {loading ? (
+          <p>loading</p>
+        ) : (
+          <>
+            {" "}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">User Name</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={staffName}
                 onChange={(e) => setStaffName(e.target.value)}
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-            <div>
-              <p>Email</p>
+            {/* Email Input */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Email</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-            <div>
-              <p>Phone Number</p>
+            {/* Phone Number Input */}
+            <div className="flex flex-col gap-3">
+              <label className="text-[18px]">Phone Number</label>
               <input
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
               />
             </div>
-          </div>
+            {/* Edit Button */}
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                onClick={handleSubmit}
+                className="bg-[#f5cba9] p-2  border-2 border-black rounded-xl text-[18px] font-semibold hover:bg-[#f6be90] w-[20%] "
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => router.push("/Admin/MainDashboard")}
+                className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+              >
+                Back
+              </button>
+            </div>
+            {/* Error Message */}
+          </>
+        )}
 
-          <button
-            onClick={handleSubmit}
-            className="border-4 border-[#4C4135] rounded-lg py-2 px-6 text-[16px] hover:bg-[#ffd2a267] font-semibold"
-          >
-            Edit
-          </button>
-        </div>
+        {/* User Name Input */}
       </div>
-      {error && <div className="text-red-500 mt-4">{error}</div>}
     </div>
   );
 };

@@ -62,33 +62,40 @@ const CreatePromotion = ({ setIsModel }) => {
     }
   };
   return (
-    <div className="border-2 border-black text-black w-[300px] p-4">
-      <h2 className="text-lg font-bold mb-2">Create Promotion</h2>
+    <div className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg">
+      {/* Title */}
+      <h2 className="text-[24px] font-semibold text-center">
+        Create Promotion
+      </h2>
 
-      <div>
-        <label className="block mb-1">Promotion Percent</label>
+      {/* Promotion Percent Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Promotion Percent</label>
         <input
           type="number"
           value={promotion.percent}
           onChange={(e) =>
             setPromotion({ ...promotion, percent: e.target.value })
           }
-          className="border p-1 w-full"
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
       </div>
 
-      <div>
-        <label className="block mt-2">Promotion Title</label>
+      {/* Promotion Title Input */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Promotion Title</label>
         <textarea
           value={promotion.title}
           onChange={(e) =>
             setPromotion({ ...promotion, title: e.target.value })
           }
-          className="border p-1 w-full"
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
       </div>
-      <div>
-        <label className="block mt-2">Assign to Staff</label>
+
+      {/* Assign to Staff Dropdown */}
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Assign to Staff</label>
         {loading ? (
           <p>Loading staff...</p>
         ) : error ? (
@@ -99,11 +106,11 @@ const CreatePromotion = ({ setIsModel }) => {
             onChange={(e) =>
               setPromotion({ ...promotion, staffID: e.target.value })
             }
-            className="border p-1 w-full"
+            className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           >
             <option value="">Select Staff</option>
             {staff.map((s) => (
-              <option key={s.StaffID} value={s.StaffID} className="text-black">
+              <option key={s.StaffID} value={s.StaffID}>
                 {s.StaffName} {/* Make sure to use the correct property name */}
               </option>
             ))}
@@ -111,21 +118,20 @@ const CreatePromotion = ({ setIsModel }) => {
         )}
       </div>
 
-      <div className="mt-4 flex justify-between">
+      {/* Buttons */}
+      <div className="flex justify-end gap-4 mt-4">
         <button
           onClick={handleAddPromotion}
-          className="bg-blue-500 text-white px-3 py-1 rounded"
+          className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
         >
           Add
         </button>
         <button
           onClick={() => setIsModel(false)}
-          className="bg-red-500 text-white px-3 py-1 rounded"
+          className="bg-gray-300 px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-gray-400"
         >
           Close
         </button>
-
-        <p>{promotion.staffID}</p>
       </div>
     </div>
   );
