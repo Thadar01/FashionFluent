@@ -94,7 +94,6 @@ export const MainDashBoard = () => {
   return (
     <div className="flex ">
       <NavBar />
-      {loading && <div>Loading...</div>}
       {session?.user?.role === "Admin" ? (
         <div className="w-full m-4 flex flex-col gap-4">
           <h1 className="text-[30px] font-semibold">Staff</h1>

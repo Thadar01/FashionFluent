@@ -73,65 +73,74 @@ const ManageProducts = () => {
     router.push(`/Admin/MainDashboard/EditProduct?id=${id}`);
   };
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="flex">
       <NavBar />
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Manage Products</h1>
-
+      <div className="p-4 w-full">
+        <div className="w-full flex justify-between">
+          <h1 className="text-[30px] font-semibold">Products</h1>
+          <button
+            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+            onClick={handleClick}
+          >
+            Add
+          </button>
+        </div>
         {/* Search Input */}
         <input
           type="text"
           placeholder="Search products..."
-          className="border-2 border-gray-300 p-2 rounded-md mb-4 w-full"
+          className="border-2 border-gray-300 p-2 rounded-md mb-4 w-[20%]"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <button
-          onClick={handleClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md mb-4"
-        >
-          Add Product
-        </button>
-
-        <div>
+        <div className="flex w-full">
           {filteredProducts.length === 0 ? (
-            <p>No products found</p>
+            loading ? (
+              <p className="p-4">loading...</p>
+            ) : (
+              <p className="p-4">No Product available</p>
+            )
           ) : (
-            <div className="flex flex-wrap gap-10">
+            <div className="flex flex-wrap gap-10 w-full justify-around">
               {filteredProducts.map((p) => (
                 <div
                   key={p.ProductID}
-                  className="border-2 border-black rounded-xl p-2"
+                  className="border-2 border-black rounded-xl p-2 flex flex-col justify-center items-center gap-5 w-[20%]"
                 >
-                  <p>Title: {p.ProductTitle}</p>
-                  <p>Price: {p.ProductPrice}</p>
-                  <p>Gender: {p.Gender}</p>
-                  <p>Color: {p.ProductColors}</p>
-                  <p>Stock: {p.Stock}</p>
                   <Image
                     src={p.Image}
-                    width={50}
-                    height={50}
+                    width={100}
+                    height={100}
                     alt={p.ProductTitle}
                   />
-                  <p>Category: {p.CategoryID}</p>
-                  <button
-                    className="bg-red-400 p-2 border-2 border-black"
-                    onClick={() => handleDelete(p.ProductID)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="bg-red-400 p-2 border-2 border-black"
-                    onClick={() => handleEdit(p.ProductID)}
-                  >
-                    Edit
-                  </button>
+                  <div className="w-full">
+                    <p>Title: {p.ProductTitle}</p>
+                    <p>Price: {p.ProductPrice}</p>
+                    <p>Gender: {p.Gender}</p>
+                    <p>Color: {p.ProductColors}</p>
+                    <p>Stock: {p.Stock}</p>
+
+                    <p>Category: {p.CategoryID}</p>
+                  </div>
+
+                  <div className="w-full flex justify-around items-center">
+                    <button
+                      className="bg-white bg-opacity-60 w-[45%] h-[35px] border-2 border-black rounded-xl hover:bg-slate-500 hover:bg-opacity-30 font-semibold"
+                      onClick={() => handleEdit(p.ProductID)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-400 w-[45%] h-[35px] border-2 border-black rounded-xl hover:bg-red-500 font-semibold"
+                      onClick={() => handleDelete(p.ProductID)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

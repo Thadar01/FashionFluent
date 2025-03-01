@@ -111,7 +111,16 @@ const Suppliers = () => {
       <NavBar />
       {searchLoading && <div>Searching...</div>}
       <div className="w-full m-4 flex flex-col gap-4">
-        <h1 className="text-[30px] font-semibold">Suppliers</h1>
+        <div className="w-full flex justify-between">
+          <h1 className="text-[30px] font-semibold">Suppliers</h1>
+          <button
+            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+            onClick={handleClick}
+          >
+            Add
+          </button>
+        </div>
+
         <input
           ref={searchInputRef}
           type="text"
@@ -120,12 +129,6 @@ const Suppliers = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border p-2 my-3 w-[20%]"
         />
-        <button
-          className="bg-blue-300 h-10 w-fit p-2 rounded-md"
-          onClick={handleClick}
-        >
-          Create
-        </button>
 
         <div className="w-full">
           {/* Header Row with Borders */}
@@ -145,7 +148,11 @@ const Suppliers = () => {
           </div>
 
           {supplier.length === 0 ? (
-            <p className="p-4">No supplier available</p>
+            loading ? (
+              <p className="p-4">loading...</p>
+            ) : (
+              <p className="p-4">No supplier available</p>
+            )
           ) : (
             <div>
               {supplier.map((sup) => (

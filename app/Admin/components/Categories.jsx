@@ -108,7 +108,15 @@ const Categories = () => {
     <div className="flex">
       <NavBar />
       <div className="w-full m-4 flex flex-col gap-4">
-        <h1 className="text-[30px] font-semibold">Categories</h1>
+        <div className="w-full flex justify-between">
+          <h1 className="text-[30px] font-semibold">Categories</h1>
+          <button
+            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
+            onClick={() => setIsModel(!isModel)}
+          >
+            Add
+          </button>
+        </div>{" "}
         <div>
           {searchLoading && <p>Searching...</p>}
           <input
@@ -119,12 +127,6 @@ const Categories = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border p-2 my-3 w-[20%]"
           />
-          <button
-            onClick={() => setIsModel(!isModel)}
-            className="bg-blue-300 h-10 w-fit p-2 rounded-md"
-          >
-            Add
-          </button>
         </div>
         {isModel && (
           <div>
@@ -137,16 +139,20 @@ const Categories = () => {
           </div>
         )}
         <div className="w-full">
+          <div className="grid grid-cols-1 w-[70%]">
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Category Name
+            </div>
+          </div>
           {category.length === 0 ? (
-            <p className="p-4">No categories available</p>
+            loading ? (
+              <p className="p-4">loading...</p>
+            ) : (
+              <p className="p-4">No category available</p>
+            )
           ) : (
             <div>
               {/* Header Row with Borders */}
-              <div className="grid grid-cols-1 w-[70%]">
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Category Name
-                </div>
-              </div>
 
               {category.map((cat) => (
                 <div key={cat.CategoryID} className="flex">

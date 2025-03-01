@@ -60,7 +60,6 @@ const Delivery = () => {
     return () => clearTimeout(timeout);
   }, [searchQuery, delivery]);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   const handleDelete = async (deliveryID) => {
@@ -94,7 +93,7 @@ const Delivery = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-[30px] font-semibold">Delivery</h2>
           <button
-            className="bg-blue-300 h-10 w-fit p-2 rounded-md"
+            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
             onClick={() => setIsModel(!isModel)}
           >
             Add
@@ -121,24 +120,26 @@ const Delivery = () => {
           className="p-2 border border-gray-400 rounded mt-4 w-[20%]"
         />
 
-        <div className="w-full mt-4">
+        <div className="w-full">
+          <div className="grid grid-cols-3 w-[70%]">
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Region
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              City
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Cost
+            </div>
+          </div>
           {filteredDelivery.length === 0 ? (
-            <p className="p-4">No deliveries available</p>
+            loading ? (
+              <p className="p-4">loading...</p>
+            ) : (
+              <p className="p-4">No deliveru available</p>
+            )
           ) : (
             <div>
-              {/* Header Row with Borders */}
-              <div className="grid grid-cols-3 w-[70%]">
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Region
-                </div>
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  City
-                </div>
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Cost
-                </div>
-              </div>
-
               {filteredDelivery.map((deli) => (
                 <div key={deli.DeliveryID} className="flex">
                   <div className="grid grid-cols-3 w-[70%]">

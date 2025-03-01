@@ -9,16 +9,16 @@ const handler = NextAuth({
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
-        role: { label: "Role", type: "text" }, // Include role in the credentials
+        role: { label: "Role", type: "text" },
       },
       async authorize(credentials) {
-        const { email, password, role } = credentials; // Destructure role from credentials
-        console.log("Authorize called with", credentials); // Log the credentials received
+        const { email, password, role } = credentials;
+        console.log("Authorize called with", credentials);
 
         try {
           const [rows] = await db.query(
             'SELECT * FROM staff WHERE StaffEmail = ? AND StaffRole = ? LIMIT 1',
-            [email, role] // Pass role in the query
+            [email, role]
           );
 
           if (rows.length === 0) {
@@ -39,8 +39,7 @@ const handler = NextAuth({
           };
         } catch (error) {
           console.error("Authorize error:", error);
-          throw error
-          return null;
+          throw error;
         }
       },
     }),

@@ -1,7 +1,7 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export const NavBar = () => {
@@ -22,9 +22,18 @@ export const NavBar = () => {
     "Feedbacks",
   ];
 
-  if (!session) {
-    router.push("/Admin/SignIn");
-    return null;
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/Admin");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>; // Or a loading spinner
+  }
+
+  if (status === "unauthenticated") {
+    return null; // Prevents rendering the rest of the component
   }
 
   const handleClick = (index) => {
@@ -39,7 +48,7 @@ export const NavBar = () => {
   };
 
   const handleLogout = () => {
-    signOut({ callbackUrl: "/" }); // Redirect to sign-in page after logout
+    signOut({ callbackUrl: "/Admin" });
   };
 
   return (

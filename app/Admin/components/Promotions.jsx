@@ -60,7 +60,6 @@ const Promotions = () => {
     return () => clearTimeout(timeout);
   }, [searchQuery, promotions]);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   const handleDelete = async (promotionID) => {
@@ -94,7 +93,7 @@ const Promotions = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-[30px] font-semibold">Promotions</h2>
           <button
-            className="bg-blue-300 h-10 w-fit p-2 rounded-md"
+            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
             onClick={() => setIsModel(!isModel)}
           >
             Add
@@ -118,25 +117,29 @@ const Promotions = () => {
         />
 
         <div className="w-full mt-4">
+          <div className="grid grid-cols-4 w-[70%]">
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              ID
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Title
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Percent
+            </div>
+            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+              Staff ID
+            </div>
+          </div>
           {filteredPromotions.length === 0 ? (
-            <p className="p-4">No promotions available</p>
+            loading ? (
+              <p className="p-4">loading...</p>
+            ) : (
+              <p className="p-4">No promotion available</p>
+            )
           ) : (
             <div>
               {/* Header Row with Borders */}
-              <div className="grid grid-cols-4 w-[70%]">
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  ID
-                </div>
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Title
-                </div>
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Percent
-                </div>
-                <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                  Staff ID
-                </div>
-              </div>
 
               {filteredPromotions.map((promo) => (
                 <div key={promo.PromotionID} className="flex">
