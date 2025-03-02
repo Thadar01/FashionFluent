@@ -42,13 +42,14 @@ const EditCategory = ({ setEdit, id }) => {
       });
 
       if (response.ok) {
+        alert("Update Successful");
         setEdit(false); // Close the edit form after successful update
       } else {
         const errorData = await response.json();
-        setError(errorData.error || "Failed to update category");
+        alert(errorData.error || "Failed to update category");
       }
     } catch (err) {
-      console.error("Update error:", err);
+      console.log(err);
     }
   };
 

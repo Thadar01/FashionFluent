@@ -69,6 +69,16 @@ export async function PUT(req, { params }) {
   }
 
   try {
+    // Check if the same region and city already exist (excluding the current delivery)
+    const checkQuery = `
+      SELECT * FROM deliveries WHERE DeliveryRegion = ? AND DeliveryCity = ? AND DeliveryID != ?
+    `;
+    const [existingDelivery] = await db.execute(checkQuery, [region, city, id]);
+
+    if (existingDelivery.length > 0) {
+      return new Response(JSON.stringify({ error: "Same region and city already exist" }), { status: 409 });
+    }
+
     // Update delivery data
     const updateQuery = `
       UPDATE deliveries
@@ -87,4 +97,5 @@ export async function PUT(req, { params }) {
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
+
 

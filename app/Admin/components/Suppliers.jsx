@@ -64,12 +64,6 @@ const Suppliers = () => {
     fetchSearchSupplier();
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [supplier]);
-
   const handleClick = () => {
     router.push("/Admin/MainDashboard/Suppliers/CreateSupplier");
   };
@@ -109,7 +103,6 @@ const Suppliers = () => {
   return (
     <div className="flex">
       <NavBar />
-      {searchLoading && <div>Searching...</div>}
       <div className="w-full m-4 flex flex-col gap-4">
         <div className="w-full flex justify-between">
           <h1 className="text-[30px] font-semibold">Suppliers</h1>

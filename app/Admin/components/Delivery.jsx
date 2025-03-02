@@ -60,8 +60,6 @@ const Delivery = () => {
     return () => clearTimeout(timeout);
   }, [searchQuery, delivery]);
 
-  if (error) return <div>Error: {error}</div>;
-
   const handleDelete = async (deliveryID) => {
     if (!deliveryID) return;
     try {

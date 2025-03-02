@@ -71,6 +71,16 @@ export async function PUT(req, { params }) {
   }
 
   try {
+    // Check if the email or staff name already exists
+    const checkQuery = `
+      SELECT * FROM staff WHERE (StaffEmail = ? OR StaffName = ?) AND StaffID != ?
+    `;
+    const [existingStaff] = await db.execute(checkQuery, [email, staffName, id]);
+
+    if (existingStaff.length > 0) {
+      return new Response(JSON.stringify({ error: "Username or email already exists" }), { status: 409 });
+    }
+
     // Update staff data
     const updateQuery = `
       UPDATE staff

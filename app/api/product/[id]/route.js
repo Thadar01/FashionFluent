@@ -70,6 +70,17 @@ export async function PUT(request, { params }) {
     const imageFile = formData.get("image");
     let imagePath = null;
 
+    // Check if the title already exists (excluding the current product)
+    const checkQuery = `
+      SELECT * FROM products WHERE ProductTitle = ? AND ProductID != ?
+    `;
+    const [existingProduct] = await db.execute(checkQuery, [title, id]);
+
+    if (existingProduct.length > 0) {
+      return NextResponse.json({ error: "Product with the same title already exists" }, { status: 409 });
+    }
+
+    // Handle image upload
     if (imageFile && imageFile.name) {
       const fileExtension = path.extname(imageFile.name);
       const fileName = `${Date.now()}${fileExtension}`; // Unique file name based on timestamp
@@ -87,6 +98,7 @@ export async function PUT(request, { params }) {
       imagePath = `/uploads/${fileName}`;
     }
 
+    // Prepare the update query based on whether the image exists
     let updateQuery;
     let values;
 
@@ -118,3 +130,4 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

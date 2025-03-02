@@ -56,12 +56,6 @@ export const MainDashBoard = () => {
     fetchSearchedStaff();
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [staff]);
-
   const handleDelete = async (staffID) => {
     if (!staffID) return;
     setLoading(true); // Show loading only for deletion

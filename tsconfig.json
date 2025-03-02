@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/Admin/components/commoms/NavBar.jsx", "app/Admin/MainDashboard/Suppliers/page.jsx", "app/Admin/components/EditStaff.jsx"  ],
+, "app/Admin/components/commoms/NavBar.jsx", "app/Admin/MainDashboard/Suppliers/page.jsx", "app/Admin/components/EditStaff.jsx", "app/Admin/MainDashboard/PurchaseProducts/pages.jsx"  ],
   "exclude": [
     "node_modules"
   ]

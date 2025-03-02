@@ -70,6 +70,16 @@ export async function PUT(req, { params }) {
   }
 
   try {
+    // Check if the CategoryName already exists (excluding the current category)
+    const checkQuery = `
+      SELECT * FROM categories WHERE CategoryName = ? AND CategoryID != ?
+    `;
+    const [existingCategory] = await db.execute(checkQuery, [CategoryName, id]);
+
+    if (existingCategory.length > 0) {
+      return new Response(JSON.stringify({ error: "Category name already exists" }), { status: 409 });
+    }
+
     // Update category data
     const updateQuery = `
       UPDATE categories

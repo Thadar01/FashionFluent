@@ -112,11 +112,8 @@ const EditStaff = () => {
                 Back
               </button>
             </div>
-            {/* Error Message */}
           </>
         )}
-
-        {/* User Name Input */}
       </div>
     </div>
   );

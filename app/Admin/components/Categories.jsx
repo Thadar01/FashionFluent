@@ -68,11 +68,11 @@ const Categories = () => {
     fetchSearchedCategory();
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [category]);
+  // useEffect(() => {
+  //   if (searchInputRef.current) {
+  //     searchInputRef.current.focus();
+  //   }
+  // }, [category]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -120,7 +120,6 @@ const Categories = () => {
             </button>
           </div>
           <div>
-            {searchLoading && <p>Searching...</p>}
             <input
               ref={searchInputRef}
               type="text"
