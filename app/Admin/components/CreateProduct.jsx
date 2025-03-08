@@ -8,6 +8,7 @@ const CreateProduct = () => {
     price: "",
     gender: "",
     colors: "",
+    sizes: "",
     stocks: "",
     image: null,
     categoryID: "",
@@ -75,6 +76,7 @@ const CreateProduct = () => {
     formData.append("price", product.price);
     formData.append("gender", product.gender);
     formData.append("colors", product.colors);
+    formData.append("sizes", product.sizes);
     formData.append("stocks", product.stocks);
     formData.append("categoryID", product.categoryID);
     formData.append("promotionID", product.promotionID);
@@ -164,6 +166,14 @@ const CreateProduct = () => {
         <input
           value={product.colors}
           onChange={(e) => setProduct({ ...product, colors: e.target.value })}
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+        />
+      </div>
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Size</label>
+        <input
+          value={product.sizes}
+          onChange={(e) => setProduct({ ...product, sizes: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
         />
       </div>

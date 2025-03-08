@@ -14,29 +14,46 @@ const Promotions = () => {
   const [edit, setEdit] = useState(false);
   const [id, setID] = useState(null);
 
-  useEffect(() => {
-    const fetchPromotions = async () => {
-      try {
-        const response = await fetch("/api/promotion");
-        const data = await response.json();
+  const fetchPromotions = async () => {
+    try {
+      const [promotionsRes, staffRes] = await Promise.all([
+        fetch("/api/promotion"),
+        fetch("/api/staff"),
+      ]);
 
-        if (response.ok) {
-          setPromotions(data);
-          setFilteredPromotions(data);
-        } else {
-          setError(
-            data.error || "An error occurred while fetching promotions."
-          );
-        }
-      } catch (err) {
-        setError("Failed to fetch promotion data");
-        console.error(err);
-      } finally {
-        setLoading(false);
+      const promotionsData = await promotionsRes.json();
+      const staffData = await staffRes.json();
+
+      if (promotionsRes.ok && staffRes.ok) {
+        // Create a map of StaffID to StaffName
+        const staffMap = staffData.reduce((acc, staff) => {
+          acc[staff.StaffID] = staff.StaffName;
+          return acc;
+        }, {});
+
+        // Replace StaffID with StaffName
+        const updatedPromotions = promotionsData.map((promo) => ({
+          ...promo,
+          StaffName: staffMap[promo.StaffID] || "Unknown",
+        }));
+
+        setPromotions(updatedPromotions);
+        setFilteredPromotions(updatedPromotions);
+      } else {
+        setError("Failed to fetch data.");
       }
-    };
-
+    } catch (err) {
+      setError("Failed to fetch promotion or staff data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchPromotions();
+    const interval = setInterval(fetchPromotions, 5000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, [isModel]);
 
   useEffect(() => {
@@ -114,7 +131,7 @@ const Promotions = () => {
 
           {/* Promotions Table */}
           <div className="w-full mt-4">
-            <div className="grid grid-cols-4 w-[70%]">
+            <div className="grid grid-cols-7 w-[70%]">
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
                 ID
               </div>
@@ -123,6 +140,15 @@ const Promotions = () => {
               </div>
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
                 Percent
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Description
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                Start Date
+              </div>
+              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+                End Date
               </div>
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
                 Staff ID
@@ -138,7 +164,7 @@ const Promotions = () => {
               <div>
                 {filteredPromotions.map((promo) => (
                   <div key={promo.PromotionID} className="flex">
-                    <div className="grid grid-cols-4 w-[70%]">
+                    <div className="grid grid-cols-7 w-[70%]">
                       <div className="border border-black text-center py-2">
                         {promo.PromotionID}
                       </div>
@@ -149,7 +175,16 @@ const Promotions = () => {
                         {promo.PromotionPercent}%
                       </div>
                       <div className="border border-black text-center py-2">
-                        {promo.StaffID}
+                        {promo.PromoDes}
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.StartDate}
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.EndDate}
+                      </div>
+                      <div className="border border-black text-center py-2">
+                        {promo.StaffName}
                       </div>
                     </div>
                     <div className="flex justify-end">

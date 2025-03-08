@@ -64,6 +64,7 @@ export async function PUT(request, { params }) {
     const price = formData.get("price");
     const gender = formData.get("gender");
     const colors = formData.get("colors");
+    const sizes= formData.get('sizes')
     const stocks = formData.get("stocks");
     const categoryID = formData.get("categoryID");
     const promotionID = formData.get("promotionID");
@@ -105,17 +106,17 @@ export async function PUT(request, { params }) {
     if (imagePath) {
       updateQuery = `
         UPDATE products 
-        SET ProductTitle = ?, ProductPrice = ?, Gender = ?, ProductColors = ?, Stock = ?, Image = ?, CategoryID = ?, PromotionID = ?
+        SET ProductTitle = ?, ProductPrice = ?, Gender = ?, ProductColors = ?,Sizes=?, Stock = ?, Image = ?, CategoryID = ?, PromotionID = ?
         WHERE ProductID = ?
       `;
-      values = [title, price, gender, colors, stocks, imagePath, categoryID, promotionID, id];
+      values = [title, price, gender, colors,sizes, stocks, imagePath, categoryID, promotionID, id];
     } else {
       updateQuery = `
         UPDATE products 
         SET ProductTitle = ?, ProductPrice = ?, Gender = ?, ProductColors = ?, Stock = ?, CategoryID = ?, PromotionID = ?
         WHERE ProductID = ?
       `;
-      values = [title, price, gender, colors, stocks, categoryID, promotionID, id];
+      values = [title, price, gender, colors,sizes, stocks, categoryID, promotionID, id];
     }
 
     const [result] = await db.execute(updateQuery, values);

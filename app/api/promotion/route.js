@@ -2,7 +2,7 @@ import db from "../../../lib/db";
 import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
-    const { percent, title, staffID } = await request.json();
+    const { percent, title, description, startDate, endDate, staffID } = await request.json();
 
     // Check if all fields are provided
     if (!percent || !title || !staffID) {
@@ -25,8 +25,8 @@ export async function POST(request) {
 
     // Insert the new promotion
     const insertQuery =
-      "INSERT INTO promotions (PromotionID, PromotionPercent, PromotionTitle, StaffID) VALUES (?, ?, ?, ?)";
-    const values = [newPromotionID, percent, title, staffID];
+      "INSERT INTO promotions (PromotionID, PromotionPercent, PromotionTitle, PromoDes, StartDate, EndDate, StaffID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [newPromotionID, percent, title, description, startDate, endDate, staffID];
     await db.execute(insertQuery, values);
 
     return new Response(

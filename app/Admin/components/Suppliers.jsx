@@ -1,10 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { NavBar } from "./commoms/NavBar";
+import Link from "next/link";
 
 const Suppliers = () => {
   const router = useRouter();
+  const param = useSearchParams();
+  const index = param.get("index");
   const [supplier, setSupplier] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -89,20 +92,13 @@ const Suppliers = () => {
     }
   };
 
-  const handleEdit = (supplierID) => {
-    if (!supplierID) return; // Ensure supplierID is valid
-    router.push(
-      `/Admin/MainDashboard/Suppliers/CreateSupplier?id=${supplierID}&edit=${true}`
-    );
-  };
-
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
     <div className="flex">
-      <NavBar />
+      <NavBar activeButton={index} />
       <div className="w-full m-4 flex flex-col gap-4">
         <div className="w-full flex justify-between">
           <h1 className="text-[30px] font-semibold">Suppliers</h1>
@@ -166,17 +162,19 @@ const Suppliers = () => {
                   </div>
                   <div className="flex justify-end">
                     <button
-                      className="ml-2 text-red-600 hover:underline"
+                      className="ml-2 text-red-600 hover:underline "
                       onClick={() => handleDelete(sup.SupplierID)}
                     >
                       Delete
                     </button>
-                    <button
-                      className="ml-2 text-blue-600 hover:underline"
-                      onClick={() => handleEdit(sup.SupplierID)}
+                    <Link
+                      href={`/Admin/MainDashboard/Suppliers/CreateSupplier?id=${
+                        sup.SupplierID
+                      }&edit=${true}`}
+                      className="ml-2 text-blue-600 hover:underline  pt-2 "
                     >
                       Edit
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ))}

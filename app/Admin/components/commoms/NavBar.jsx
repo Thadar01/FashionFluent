@@ -1,32 +1,64 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link"; // Import the Link component
+import { usePathname, useRouter } from "next/navigation";
 
 export const NavBar = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const pathname = usePathname();
 
-  const data = [
-    "Staff",
-    "Suppliers",
-    "Categories",
-    "Delivery",
-    "Promotions",
-    "Manage Products",
-    "Purchase Products",
-    "Order Confirmation",
-    "Customers",
-    "Feedbacks",
-  ];
+  const data =
+    session?.user?.role === "Admin"
+      ? [
+          "MainDashboard",
+          "Staffs",
+          "Suppliers",
+          "Categories",
+          "Delivery",
+          "Promotions",
+          "Manage Products",
+          "Purchase Products",
+          "Order Confirmation",
+          "Customers",
+          "Feedbacks",
+        ]
+      : [
+          "MainDashboard",
+          "Suppliers",
+          "Categories",
+          "Delivery",
+          "Manage Products",
+          "Order Confirmation",
+          "Customers",
+          "Feedbacks",
+        ];
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/Admin");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   if (status === "loading") {
     return <div>Loading...</div>; // Or a loading spinner
@@ -36,23 +68,12 @@ export const NavBar = () => {
     return null; // Prevents rendering the rest of the component
   }
 
-  const handleClick = (index) => {
-    if (index === 0) {
-      router.push("/Admin/MainDashboard");
-    } else {
-      const item = data[index];
-      const pathName = `/Admin/MainDashboard/${item.replace(/\s+/g, "")}`;
-      router.push(pathName);
-      console.log(pathName);
-    }
-  };
-
   const handleLogout = () => {
     signOut({ callbackUrl: "/Admin" });
   };
 
   return (
-    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-[725px] sticky top-0">
+    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-screen  sticky top-0">
       {/* Profile Section */}
       <div className="flex flex-row gap-7 p-3 border-x-0 border-t-0 border-b-2 border-black border-opacity-15">
         <Image
@@ -68,15 +89,24 @@ export const NavBar = () => {
       </div>
 
       {/* Navigation Buttons */}
-      {data.map((item, index) => (
-        <button
-          key={index}
-          className="p-5 pl-6 py-4 text-[14px] font-semibold border-x-0 border-t-0 border-b-2 border-black border-opacity-15 w-full text-left hover:bg-[#bca081]"
-          onClick={() => handleClick(index)}
-        >
-          {item}
-        </button>
-      ))}
+      {data.map((item, index) => {
+        const href =
+          index === 0
+            ? "/Admin/MainDashboard"
+            : `/Admin/MainDashboard/${item.replace(/\s+/g, "")}`;
+        const isActive = pathname === href;
+
+        return (
+          <Link
+            key={index}
+            href={href}
+            className={`p-5 pl-6 py-4 text-[14px] font-semibold border-b-2 border-black border-opacity-15 block
+              ${isActive ? "bg-[#bca081] text-white" : "hover:bg-[#bca081]"}`}
+          >
+            {item}
+          </Link>
+        );
+      })}
 
       {/* Dropdown Menu */}
       {isOpen && (

@@ -50,35 +50,43 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   const { id } = params;
 
+  // Check if the ID is provided
   if (!id) {
     return new Response(JSON.stringify({ error: "Missing promotion ID" }), { status: 400 });
   }
 
   let requestBody;
   try {
+    // Parse the request body
     requestBody = await req.json();
   } catch (error) {
     return new Response(JSON.stringify({ error: "Invalid request body" }), { status: 400 });
   }
 
-  const { percent, title, staffID } = requestBody;
+  const { percent, title, description, startDate, endDate, staffID } = requestBody;
 
-  if (!percent || !title || !staffID) {
-    return new Response(JSON.stringify({ error: "Missing promotion data (percent, title, or staffID)" }), { status: 400 });
+  // Validate the required fields
+  if (!percent || !title || !description || !startDate || !endDate || !staffID) {
+    return new Response(JSON.stringify({ error: "Missing promotion data (percent, title, description, startDate, endDate, or staffID)" }), { status: 400 });
   }
 
   try {
+    // Update promotion query
     const updateQuery = `
       UPDATE promotions
-      SET PromotionPercent = ?, PromotionTitle = ?, StaffID = ?
+      SET PromotionPercent = ?, PromotionTitle = ?, PromoDes = ?, StartDate = ?, EndDate = ?, StaffID = ?
       WHERE PromotionID = ?
     `;
-    const [result] = await db.execute(updateQuery, [percent, title, staffID, id]);
 
+    // Execute the query
+    const [result] = await db.execute(updateQuery, [percent, title, description, startDate, endDate, staffID, id]);
+
+    // Check if any row was updated
     if (result.affectedRows === 0) {
-      return new Response(JSON.stringify({ error: "Promotion not found" }), { status: 404 });
+      return new Response(JSON.stringify({ error: "Promotion not found or no changes made" }), { status: 404 });
     }
 
+    // Successfully updated the promotion
     return new Response(JSON.stringify({ message: "Promotion updated successfully" }), { status: 200 });
   } catch (error) {
     console.error("Error updating promotion:", error);

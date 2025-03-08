@@ -7,6 +7,7 @@ import Image from "next/image";
 const ManageProducts = () => {
   const router = useRouter();
   const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]); // Store categories
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,26 +18,32 @@ const ManageProducts = () => {
   };
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndCategories = async () => {
       try {
-        const response = await fetch("/api/product");
-        const data = await response.json();
+        const [productRes, categoryRes] = await Promise.all([
+          fetch("/api/product"),
+          fetch("/api/category"), // Fetch categories
+        ]);
 
-        if (response.ok) {
-          setProduct(data);
-          setFilteredProducts(data);
+        const productData = await productRes.json();
+        const categoryData = await categoryRes.json();
+
+        if (productRes.ok && categoryRes.ok) {
+          setProduct(productData);
+          setFilteredProducts(productData);
+          setCategories(categoryData); // Save categories in state
         } else {
-          setError(data.error || "An error occurred while fetching products.");
+          setError("An error occurred while fetching data.");
         }
       } catch (err) {
-        setError("Failed to fetch product data");
+        setError("Failed to fetch data");
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProduct();
+    fetchProductAndCategories();
   }, []);
 
   useEffect(() => {
@@ -71,6 +78,12 @@ const ManageProducts = () => {
 
   const handleEdit = (id) => {
     router.push(`/Admin/MainDashboard/EditProduct?id=${id}`);
+  };
+
+  // Function to get category name from category list
+  const getCategoryName = (categoryId) => {
+    const category = categories.find((c) => c.CategoryID === categoryId);
+    return category ? category.CategoryName : "Unknown";
   };
 
   if (error) return <div>Error: {error}</div>;
@@ -119,12 +132,12 @@ const ManageProducts = () => {
                   />
                   <div className="w-full">
                     <p>Title: {p.ProductTitle}</p>
-                    <p>Price: {p.ProductPrice}</p>
+                    <p>Price: {p.ProductPrice} MMK</p>
                     <p>Gender: {p.Gender}</p>
                     <p>Color: {p.ProductColors}</p>
+                    <p>Sizes:{p.Sizes}</p>
                     <p>Stock: {p.Stock}</p>
-
-                    <p>Category: {p.CategoryID}</p>
+                    <p>Category: {getCategoryName(p.CategoryID)}</p>
                   </div>
 
                   <div className="w-full flex justify-around items-center">

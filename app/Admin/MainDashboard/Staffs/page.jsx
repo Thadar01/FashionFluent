@@ -1,10 +1,9 @@
-import MainDashBoard from "../components/MainDashBoard";
 import React from "react";
-
+import Staff from "../../components/Staff";
 const page = () => {
   return (
     <div>
-      <MainDashBoard />
+      <Staff />
     </div>
   );
 };

@@ -14,29 +14,31 @@ const Delivery = () => {
   const [edit, setEdit] = useState(false);
   const [deliveryId, setDeliveryId] = useState(null); // New state to store the category ID
 
-  useEffect(() => {
-    const fetchDelivery = async () => {
-      try {
-        const response = await fetch("/api/delivery");
-        const data = await response.json();
+  const fetchDelivery = async () => {
+    try {
+      const response = await fetch("/api/delivery");
+      const data = await response.json();
 
-        if (response.ok) {
-          setDelivery(data);
-          setFilteredDelivery(data);
-        } else {
-          setError(data.error || "An error occurred while fetching delivery.");
-        }
-      } catch (err) {
-        setError("Failed to fetch delivery data");
-        console.error(err);
-      } finally {
-        setLoading(false);
+      if (response.ok) {
+        setDelivery(data);
+        setFilteredDelivery(data);
+      } else {
+        setError(data.error || "An error occurred while fetching delivery.");
       }
-    };
+    } catch (err) {
+      setError("Failed to fetch delivery data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDelivery();
-  }, [isModel]);
+    const interval = setInterval(fetchDelivery, 5000);
 
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [isModel]);
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!searchQuery) {

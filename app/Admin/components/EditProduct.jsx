@@ -12,6 +12,7 @@ const EditProduct = () => {
     gender: "",
     colors: "",
     stocks: "",
+    sizes: "",
     image: null,
     categoryID: "",
     promotionID: "",
@@ -85,6 +86,7 @@ const EditProduct = () => {
             price: data.ProductPrice,
             gender: data.Gender,
             colors: data.ProductColors,
+            sizes: data.Sizes,
             stocks: data.Stock,
             image: data.Image,
             categoryID: data.CategoryID,
@@ -112,6 +114,7 @@ const EditProduct = () => {
     formData.append("price", product.price);
     formData.append("gender", product.gender);
     formData.append("colors", product.colors);
+    formData.append("sizes", product.sizes);
     formData.append("stocks", product.stocks);
     formData.append("categoryID", product.categoryID);
     formData.append("promotionID", product.promotionID);
@@ -198,6 +201,16 @@ const EditProduct = () => {
                 value={product.colors}
                 onChange={(e) =>
                   setProduct({ ...product, colors: e.target.value })
+                }
+                className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+              />
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              <label className="text-sm font-medium">Sizes</label>
+              <input
+                value={product.sizes}
+                onChange={(e) =>
+                  setProduct({ ...product, sizes: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
               />
