@@ -13,7 +13,7 @@ export async function POST(request) {
       });
     }
 
-    const getLastIdQuery = "SELECT StaffID FROM staff ORDER BY StaffID DESC LIMIT 1";
+    const getLastIdQuery = "SELECT StaffID FROM staffs ORDER BY StaffID DESC LIMIT 1";
     const [lastRecord] = await db.execute(getLastIdQuery);
 
     let newStaffID = "S-001"; // Default ID if no records exist
@@ -25,11 +25,11 @@ export async function POST(request) {
     }
 
     // Check if the user already exists
-    const checkQuery = "SELECT * FROM staff WHERE StaffName = ?";
+    const checkQuery = "SELECT * FROM staffs WHERE StaffName = ?";
     const [existingUser] = await db.execute(checkQuery, [staffName]);
 
 
-    const checkEmail="SELECT * FROM staff WHERE StaffEmail=?";
+    const checkEmail="SELECT * FROM staffs WHERE StaffEmail=?";
     const [existingEmail]=await db.execute(checkEmail,[email]);
 
     if (existingUser.length > 0) {
@@ -48,7 +48,7 @@ export async function POST(request) {
 
     // Proceed with insertion if the user doesn't exist
     const insertQuery =
-      "INSERT INTO staff (StaffID,StaffName,StaffEmail,StaffPhoneNo,StaffPasswords, StaffRole) VALUES (?,?, ?, ? , ? ,? )";
+      "INSERT INTO staffs (StaffID,StaffName,StaffEmail,StaffPhoneNo,StaffPasswords, StaffRole) VALUES (?,?, ?, ? , ? ,? )";
     const values = [newStaffID,staffName,email,phone, passwords, role];
     await db.execute(insertQuery, values);
 

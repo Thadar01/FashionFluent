@@ -10,7 +10,7 @@ const EditPromotion = ({ setEdit, id }) => {
     description: "",
     startDate: "",
     endDate: "",
-    staffID: session?.user?.id || "", // Auto-assign the current user if available
+    staffID: session.user.id, // Auto-assign the current user if available
   });
 
   const [staff, setStaff] = useState([]);

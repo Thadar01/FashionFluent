@@ -81,7 +81,7 @@ const EditSupplier = () => {
       <NavBar />
       <div className="m-4 flex flex-col gap-5 w-[400px]">
         {/* Title */}
-        <p className="text-[30px] font-semibold">Add Supplier</p>
+        <p className="text-[30px] font-semibold">Edit Supplier</p>
         {loading ? (
           <p>loading..</p>
         ) : (

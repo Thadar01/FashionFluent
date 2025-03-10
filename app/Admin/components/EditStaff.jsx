@@ -54,7 +54,7 @@ const EditStaff = () => {
       }
 
       alert("Edit Successful");
-      router.push("/Admin/MainDashboard");
+      router.push("/Admin/MainDashboard/Staffs");
     } catch (error) {
       setError(error.message);
     }

@@ -17,7 +17,7 @@ const handler = NextAuth({
 
         try {
           const [rows] = await db.query(
-            'SELECT * FROM staff WHERE StaffEmail = ? AND StaffRole = ? LIMIT 1',
+            'SELECT * FROM staffs WHERE StaffEmail = ? AND StaffRole = ? LIMIT 1',
             [email, role]
           );
 

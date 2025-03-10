@@ -16,6 +16,7 @@ const CreatePromotion = ({ setIsModel }) => {
   const handleAddPromotion = async () => {
     const { percent, title, description, startDate, endDate, staffID } =
       promotion;
+    console.log(staffID);
     if (
       !percent ||
       !title ||

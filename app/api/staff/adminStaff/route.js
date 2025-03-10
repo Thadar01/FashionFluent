@@ -4,7 +4,7 @@ import db from '../../../../lib/db'
 
 export async function GET() {
   try {
-    const query = "SELECT * FROM staff WHERE StaffRole='Admin'"; // Query to get all staff
+    const query = "SELECT * FROM staffs WHERE StaffRole='Admin'"; // Query to get all staff
     const [staffData] = await db.execute(query); // Execute the query to fetch staff data
 
     // If no staff are found, return a message

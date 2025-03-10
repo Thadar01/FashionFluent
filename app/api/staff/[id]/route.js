@@ -10,7 +10,7 @@ export async function DELETE(req, { params }) {
 
   try {
     // Delete staff member
-    const deleteQuery = "DELETE FROM staff WHERE StaffID = ?";
+    const deleteQuery = "DELETE FROM staffs WHERE StaffID = ?";
     const [result] = await db.execute(deleteQuery, [id]);
 
     if (result.affectedRows === 0) {
@@ -34,7 +34,7 @@ export async function GET(req, { params }) {
 
   try {
     // Search for the staff by ID
-    const searchQuery = "SELECT * FROM staff WHERE StaffID = ?";
+    const searchQuery = "SELECT * FROM staffs WHERE StaffID = ?";
     const [result] = await db.execute(searchQuery, [id]);
 
     if (result.length === 0) {
@@ -73,7 +73,7 @@ export async function PUT(req, { params }) {
   try {
     // Check if the email or staff name already exists
     const checkQuery = `
-      SELECT * FROM staff WHERE (StaffEmail = ? OR StaffName = ?) AND StaffID != ?
+      SELECT * FROM staffs WHERE (StaffEmail = ? OR StaffName = ?) AND StaffID != ?
     `;
     const [existingStaff] = await db.execute(checkQuery, [email, staffName, id]);
 
@@ -83,7 +83,7 @@ export async function PUT(req, { params }) {
 
     // Update staff data
     const updateQuery = `
-      UPDATE staff
+      UPDATE staffs
       SET StaffName = ?, StaffEmail = ?, StaffPhoneNo = ?
       WHERE StaffID = ?
     `;

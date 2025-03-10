@@ -8,6 +8,7 @@ const ManageProducts = () => {
   const router = useRouter();
   const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]); // Store categories
+  const [promotions, setPromotion] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,18 +21,21 @@ const ManageProducts = () => {
   useEffect(() => {
     const fetchProductAndCategories = async () => {
       try {
-        const [productRes, categoryRes] = await Promise.all([
+        const [productRes, categoryRes, promoRes] = await Promise.all([
           fetch("/api/product"),
           fetch("/api/category"), // Fetch categories
+          fetch("/api/promotion"),
         ]);
 
         const productData = await productRes.json();
         const categoryData = await categoryRes.json();
+        const promoData = await promoRes.json();
 
         if (productRes.ok && categoryRes.ok) {
           setProduct(productData);
           setFilteredProducts(productData);
           setCategories(categoryData); // Save categories in state
+          setPromotion(promoData);
         } else {
           setError("An error occurred while fetching data.");
         }
@@ -86,6 +90,11 @@ const ManageProducts = () => {
     return category ? category.CategoryName : "Unknown";
   };
 
+  const getPromotionName = (promoId) => {
+    const promotion = promotions.find((c) => c.PromotionID === promoId);
+    return promotion ? promotion.PromotionTitle : "Unknown";
+  };
+
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -118,7 +127,7 @@ const ManageProducts = () => {
               <p className="p-4">No Product available</p>
             )
           ) : (
-            <div className="flex flex-wrap gap-10 w-full  justify-between">
+            <div className="flex flex-wrap gap-10 w-full  ">
               {filteredProducts.map((p) => (
                 <div
                   key={p.ProductID}
@@ -138,6 +147,7 @@ const ManageProducts = () => {
                     <p>Sizes:{p.Sizes}</p>
                     <p>Stock: {p.Stock}</p>
                     <p>Category: {getCategoryName(p.CategoryID)}</p>
+                    <p>Promotion:{getPromotionName(p.PromotionID)}</p>
                   </div>
 
                   <div className="w-full flex justify-around items-center">

@@ -6,7 +6,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("q"); // `q` will be the search term (e.g., name or email)
 
-    let searchQuery = "SELECT * FROM staff";
+    let searchQuery = "SELECT * FROM staffs";
     let queryParams = [];
 
     if (query) {
