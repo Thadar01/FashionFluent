@@ -31,7 +31,13 @@ const CreateCategory = ({ setIsModel }) => {
     }
   };
   return (
-    <div className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleAddCategory();
+      }}
+      className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg"
+    >
       {/* Title */}
       <p className="text-[24px] font-semibold text-center">Add Category</p>
 
@@ -42,13 +48,14 @@ const CreateCategory = ({ setIsModel }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
       {/* Buttons */}
       <div className="flex justify-end gap-4 mt-4">
         <button
-          onClick={() => handleAddCategory()}
+          type="submit"
           className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
         >
           Add
@@ -60,7 +67,7 @@ const CreateCategory = ({ setIsModel }) => {
           Close
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

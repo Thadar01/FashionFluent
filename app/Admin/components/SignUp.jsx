@@ -38,7 +38,7 @@ const SignUp = () => {
     }
 
     if (!email.includes("@gmail.com")) {
-      alert("Please enter a valid Gmail address");
+      alert("Please enter a valid Email address");
       return;
     }
 
@@ -77,38 +77,52 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex h-[728px]">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleSignUp();
+      }}
+      className="flex h-[728px]"
+    >
       <div className="bg-[#FFD2A2] flex justify-end flex-col w-[70%] h-full p-14">
         <p className="text-[110px] font-semibold">Fashion Fluent</p>
-        <p className="text-[30px] font-semibold">Staff Sign Up</p>
+        <p className="text-[30px] font-semibold">{role} Sign Up</p>
       </div>
+
       <div className="flex h-full flex-col gap-5 justify-center items-center w-[30%]">
         <p className="text-[30px] font-semibold">Sign Up</p>
         <div className="w-[90%] flex flex-col gap-3">
           <div>
             <p>User Name</p>
             <input
-              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
               value={staffName}
               onChange={(e) => setStaffName(e.target.value)}
+              required
             />
           </div>
+
           <div>
             <p>Email</p>
             <input
-              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
+
           <div>
             <p>Phone Number</p>
             <input
-              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+              type="tel"
+              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              required
             />
           </div>
+
           <div>
             <p>Passwords</p>
             <div className="relative">
@@ -122,12 +136,14 @@ const SignUp = () => {
               />
               <input
                 type={showPassword ? "text" : "password"}
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
                 value={passwords}
                 onChange={(e) => setPasswords(e.target.value)}
+                required
               />
             </div>
           </div>
+
           <div>
             <p>Confirm Passwords</p>
             <div className="relative">
@@ -145,15 +161,16 @@ const SignUp = () => {
               />
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
           </div>
 
           <Link
-            href={{ pathname: "/SAdmin/ignIn", query: { role: "Staff" } }}
+            href={{ pathname: "/Admin/SignIn", query: { role: role } }}
             className="underline mt-[-20px] hover:text-[#a14d31]"
           >
             Already Have An Account? Sign In
@@ -161,13 +178,13 @@ const SignUp = () => {
         </div>
 
         <button
-          onClick={handleSignUp}
+          type="submit"
           className="border-4 border-[#4C4135] rounded-lg py-2 px-6 text-[16px] hover:bg-[#ffd2a267] font-semibold"
         >
           Sign Up
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -44,7 +44,13 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex h-[728px]">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleSignIn();
+      }}
+      className="flex h-[728px]"
+    >
       <div className="bg-[#FFD2A2] flex justify-end flex-col w-[70%] h-full p-14">
         <p className="text-[110px] font-semibold">Fashion Fluent</p>
         <p className="text-[30px] font-semibold">{role} Sign In</p>
@@ -58,6 +64,7 @@ const SignIn = () => {
               className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -76,6 +83,7 @@ const SignIn = () => {
                 className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
                 value={passwords}
                 onChange={(e) => setPasswords(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -88,13 +96,13 @@ const SignIn = () => {
           </Link>
         </div>
         <button
-          onClick={handleSignIn}
+          type="submit"
           className="border-4 border-[#4C4135] rounded-lg py-2 px-6 text-[16px] hover:bg-[#ffd2a267] font-semibold"
         >
           Sign In
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

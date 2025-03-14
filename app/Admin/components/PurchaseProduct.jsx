@@ -38,34 +38,44 @@ const PurchaseProduct = () => {
   return (
     <div className="flex">
       <NavBar />
-      <div className="p-5 w-full">
+      <div className="p-5 w-full relative">
         <h2 className="text-[30px] font-semibold mb-4">Purchase Product</h2>
-        <div className="flex gap-3 mb-4 items-center">
-          <input
-            type="date"
-            value={searchDate}
-            onChange={(e) => setSearchDate(e.target.value)}
-            className="p-2 border-2 border-black rounded-lg"
-          />
-          <button
-            onClick={handleSearchClick}
-            className="bg-blue-500 text-white p-2 rounded-lg font-semibold border-2 border-black hover:bg-blue-600"
+        <Link
+          href={"/Admin/MainDashboard/PurchaseForm"}
+          className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90] text-center absolute top-4 right-5"
+        >
+          Purchase
+        </Link>
+        <div className="flex gap-2">
+          <form
+            className="flex gap-3 mb-4 items-center"
+            onSubmit={(e) => {
+              e.preventDefault(); // Prevents default form submission
+              handleSearchClick();
+            }}
           >
-            Search
-          </button>
+            <input
+              type="date"
+              value={searchDate}
+              onChange={(e) => setSearchDate(e.target.value)}
+              className="p-2 border-2 border-black rounded-lg"
+              required
+            />
+            <button
+              type="submit"
+              className="bg-[#f5cba9] p-2 rounded-lg font-semibold border-2 border-black hover:bg-[#f6be90]"
+            >
+              Search
+            </button>
+          </form>
           <button
             onClick={handleShowAll}
-            className="bg-gray-500 text-white p-2 rounded-lg font-semibold border-2 border-black hover:bg-gray-600"
+            className="bg-gray-200 p-2 rounded-lg font-semibold border-2 border-black hover:bg-gray-300 h-[45px]"
           >
             Show All
           </button>
-          <Link
-            href={"/Admin/MainDashboard/PurchaseForm"}
-            className="bg-[#f5cba9] h-10 w-[100px] p-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90] text-center"
-          >
-            Purchase
-          </Link>
         </div>
+
         <table className="border-collapse border border-gray-500 w-full">
           <thead>
             <tr className="bg-gray-200">

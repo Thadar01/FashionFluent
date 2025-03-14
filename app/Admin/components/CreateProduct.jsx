@@ -114,7 +114,13 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="p-6 w-[400px] flex flex-col gap-4 ">
+    <form
+      className="p-6 w-[400px] flex flex-col gap-4 "
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleAddProduct();
+      }}
+    >
       {/* Title */}
       <h1 className="text-[24px] font-semibold ">Add Product</h1>
 
@@ -125,6 +131,7 @@ const CreateProduct = () => {
           value={product.title}
           onChange={(e) => setProduct({ ...product, title: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -135,6 +142,7 @@ const CreateProduct = () => {
           value={product.price}
           onChange={(e) => setProduct({ ...product, price: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -153,6 +161,7 @@ const CreateProduct = () => {
                   setProduct({ ...product, gender: e.target.value })
                 }
                 className="focus:ring-[#f5cba9]"
+                required
               />
               <span>{g}</span>
             </label>
@@ -167,6 +176,7 @@ const CreateProduct = () => {
           value={product.colors}
           onChange={(e) => setProduct({ ...product, colors: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
       <div className="flex flex-col w-full gap-2">
@@ -175,6 +185,7 @@ const CreateProduct = () => {
           value={product.sizes}
           onChange={(e) => setProduct({ ...product, sizes: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -186,6 +197,7 @@ const CreateProduct = () => {
           value={product.stocks}
           onChange={(e) => setProduct({ ...product, stocks: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -197,6 +209,7 @@ const CreateProduct = () => {
           accept="image/*"
           onChange={handleImageChange}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -214,6 +227,7 @@ const CreateProduct = () => {
               setProduct({ ...product, categoryID: e.target.value })
             }
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            required
           >
             <option value="">Select Category</option>
             {category.map((c) => (
@@ -239,6 +253,7 @@ const CreateProduct = () => {
               setProduct({ ...product, promotionID: e.target.value })
             }
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            required
           >
             <option value="">Select Promotion</option>
             {promotion.map((p) => (
@@ -253,7 +268,7 @@ const CreateProduct = () => {
       {/* Buttons */}
       <div className="flex justify-end gap-4 mt-4">
         <button
-          onClick={handleAddProduct}
+          type="submit"
           className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
         >
           Add
@@ -265,7 +280,7 @@ const CreateProduct = () => {
           Back
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -54,7 +54,13 @@ const CreateSupplier = () => {
   };
 
   return (
-    <div className="flex">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleAddSupplier();
+      }}
+      className="flex"
+    >
       <NavBar />
       <div className="m-4 flex flex-col gap-5 w-[400px]">
         {/* Title */}
@@ -69,6 +75,7 @@ const CreateSupplier = () => {
               setSupplier({ ...supplier, supplierName: e.target.value })
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
 
@@ -81,6 +88,7 @@ const CreateSupplier = () => {
               setSupplier({ ...supplier, email: e.target.value })
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
 
@@ -93,6 +101,7 @@ const CreateSupplier = () => {
               setSupplier({ ...supplier, phone: e.target.value })
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
 
@@ -105,13 +114,14 @@ const CreateSupplier = () => {
               setSupplier({ ...supplier, address: e.target.value })
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
 
         {/* Add Button */}
         <div className="flex justify-end gap-4 mt-4">
           <button
-            onClick={handleAddSupplier}
+            type="submit"
             className="bg-[#f5cba9] p-2  border-2 border-black rounded-xl text-[18px] font-semibold hover:bg-[#f6be90] w-[20%] "
           >
             Add
@@ -124,7 +134,7 @@ const CreateSupplier = () => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

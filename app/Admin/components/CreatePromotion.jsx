@@ -52,7 +52,13 @@ const CreatePromotion = ({ setIsModel }) => {
   };
 
   return (
-    <div className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg">
+    <form
+      className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg"
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleAddPromotion();
+      }}
+    >
       <h2 className="text-[24px] font-semibold text-center">
         Create Promotion
       </h2>
@@ -65,6 +71,7 @@ const CreatePromotion = ({ setIsModel }) => {
             setPromotion({ ...promotion, title: e.target.value })
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
 
@@ -76,6 +83,7 @@ const CreatePromotion = ({ setIsModel }) => {
             setPromotion({ ...promotion, description: e.target.value })
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
       <div className="flex flex-col w-full gap-2">
@@ -87,6 +95,7 @@ const CreatePromotion = ({ setIsModel }) => {
             setPromotion({ ...promotion, percent: e.target.value })
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
         />
       </div>
       <div className="flex">
@@ -99,6 +108,7 @@ const CreatePromotion = ({ setIsModel }) => {
               setPromotion({ ...promotion, startDate: e.target.value })
             }
             className="w-[90%] p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
         <div className="flex flex-col w-full gap-2">
@@ -110,13 +120,14 @@ const CreatePromotion = ({ setIsModel }) => {
               setPromotion({ ...promotion, endDate: e.target.value })
             }
             className="w-[90%]  p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+            required
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-4 mt-4">
         <button
-          onClick={handleAddPromotion}
+          type="submit"
           className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
         >
           Add
@@ -128,7 +139,7 @@ const CreatePromotion = ({ setIsModel }) => {
           Close
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
