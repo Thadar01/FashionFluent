@@ -57,6 +57,7 @@ const CreateDelivery = ({ setIsModel }) => {
             }
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Delivery Region"
           />
         </div>
 
@@ -68,6 +69,7 @@ const CreateDelivery = ({ setIsModel }) => {
             onChange={(e) => setDelivery({ ...delivery, city: e.target.value })}
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Delivery City"
           />
         </div>
 
@@ -79,6 +81,7 @@ const CreateDelivery = ({ setIsModel }) => {
             onChange={(e) => setDelivery({ ...delivery, cost: e.target.value })}
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Delivery Cost"
           />
         </div>
 

@@ -72,6 +72,7 @@ const CreatePromotion = ({ setIsModel }) => {
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Promotion Title"
         />
       </div>
 
@@ -84,6 +85,7 @@ const CreatePromotion = ({ setIsModel }) => {
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Promotion Description"
         />
       </div>
       <div className="flex flex-col w-full gap-2">
@@ -96,6 +98,7 @@ const CreatePromotion = ({ setIsModel }) => {
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Promotion Percent"
         />
       </div>
       <div className="flex">

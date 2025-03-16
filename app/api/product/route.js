@@ -7,6 +7,7 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const title = formData.get("title");
+    const description=formData.get('description')
     const price = formData.get("price");
     const gender = formData.get("gender");
     const colors = formData.get("colors");
@@ -53,8 +54,8 @@ export async function POST(request) {
     }
 
     // Insert the new product
-    const insertQuery = `INSERT INTO products (ProductID, ProductTitle, ProductPrice, Gender, ProductColors,Sizes, Stock, Image, CategoryID,PromotionID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?,?,?)`;
-    const values = [newProductID, title, price, gender, colors,sizes, stocks, imagePath, categoryID,promotionID];
+    const insertQuery = `INSERT INTO products (ProductID, ProductTitle,Description, ProductPrice, Gender, ProductColors,Sizes, Stock, Image, CategoryID,PromotionID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)`;
+    const values = [newProductID, title,description, price, gender, colors,sizes, stocks, imagePath, categoryID,promotionID];
 
     await db.execute(insertQuery, values);
 

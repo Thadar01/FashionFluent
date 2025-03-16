@@ -5,6 +5,7 @@ const CreateProduct = () => {
   const router = useRouter();
   const [product, setProduct] = useState({
     title: "",
+    description: "",
     price: "",
     gender: "",
     colors: "",
@@ -73,6 +74,7 @@ const CreateProduct = () => {
   const handleAddProduct = async () => {
     const formData = new FormData();
     formData.append("title", product.title);
+    formData.append("description", product.description);
     formData.append("price", product.price);
     formData.append("gender", product.gender);
     formData.append("colors", product.colors);
@@ -98,6 +100,7 @@ const CreateProduct = () => {
       alert("Product added successfully");
       setProduct({
         title: "",
+        description: "",
         price: "",
         gender: "",
         colors: "",
@@ -134,7 +137,17 @@ const CreateProduct = () => {
           required
         />
       </div>
-
+      <div className="flex flex-col w-full gap-2">
+        <label className="text-sm font-medium">Description</label>
+        <textarea
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
+          className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+          required
+        />
+      </div>
       {/* Price Input */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-sm font-medium">Price</label>

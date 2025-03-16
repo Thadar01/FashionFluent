@@ -76,6 +76,7 @@ const CreateSupplier = () => {
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Supplier Name"
           />
         </div>
 
@@ -89,6 +90,7 @@ const CreateSupplier = () => {
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Supplier Email"
           />
         </div>
 
@@ -102,6 +104,7 @@ const CreateSupplier = () => {
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Supplier Phone Number"
           />
         </div>
 
@@ -115,6 +118,7 @@ const CreateSupplier = () => {
             }
             className="p-2 border-2 border-black rounded-lg text-[18px] focus:outline-none focus:border-[#f5cba9]"
             required
+            placeholder="Supplier Address"
           />
         </div>
 

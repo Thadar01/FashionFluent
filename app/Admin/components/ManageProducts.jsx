@@ -111,14 +111,29 @@ const ManageProducts = () => {
           </button>
         </div>
         {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="border-2 border-gray-300 p-2 rounded-md mb-4 w-[20%]"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
+        <div className="relative w-[20%] my-3">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="border p-2 w-full rounded-lg"
+            value={searchQuery || ""}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="absolute right-3 top-5 transform -translate-y-1/2 size-5 text-gray-500"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+            />
+          </svg>
+        </div>
         <div className="flex w-full justify-center items-center">
           {filteredProducts.length === 0 ? (
             loading ? (
@@ -133,14 +148,19 @@ const ManageProducts = () => {
                   key={p.ProductID}
                   className="border-2 border-black rounded-xl p-2 flex flex-col justify-center items-center gap-5 w-[20%]"
                 >
-                  <Image
-                    src={p.Image}
-                    width={100}
-                    height={100}
-                    alt={p.ProductTitle}
-                  />
+                  <div className="w-[150px] h-[200px] bg-red-400">
+                    <Image
+                      src={p.Image}
+                      alt={p.ProductTitle}
+                      width={100}
+                      height={100}
+                      style={{ width: "100%", height: "100%" }} // Ensures it fits inside the div
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="w-full">
                     <p>Title: {p.ProductTitle}</p>
+                    <p>Description:{p.Description}</p>
                     <p>Price: {p.ProductPrice} MMK</p>
                     <p>Gender: {p.Gender}</p>
                     <p>Color: {p.ProductColors}</p>
@@ -150,7 +170,7 @@ const ManageProducts = () => {
                     <p>Promotion:{getPromotionName(p.PromotionID)}</p>
                   </div>
 
-                  <div className="w-full flex justify-around items-center">
+                  <div className="w-full flex justify-around items-center mb-2">
                     <button
                       className="bg-white bg-opacity-60 w-[45%] h-[35px] border-2 border-black rounded-xl hover:bg-slate-500 hover:bg-opacity-30 font-semibold"
                       onClick={() => handleEdit(p.ProductID)}

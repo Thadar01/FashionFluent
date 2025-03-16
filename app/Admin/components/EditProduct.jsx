@@ -8,6 +8,7 @@ const EditProduct = () => {
   const router = useRouter();
   const [product, setProduct] = useState({
     title: "",
+    description: "",
     price: "",
     gender: "",
     colors: "",
@@ -83,6 +84,7 @@ const EditProduct = () => {
         if (response.ok) {
           setProduct({
             title: data.ProductTitle,
+            description: data.Description,
             price: data.ProductPrice,
             gender: data.Gender,
             colors: data.ProductColors,
@@ -111,6 +113,7 @@ const EditProduct = () => {
   const handleEditProduct = async () => {
     const formData = new FormData();
     formData.append("title", product.title);
+    formData.append("description", product.description);
     formData.append("price", product.price);
     formData.append("gender", product.gender);
     formData.append("colors", product.colors);
@@ -151,13 +154,22 @@ const EditProduct = () => {
           <p>loading...</p>
         ) : (
           <>
-            {" "}
             <div className="flex flex-col w-full gap-2">
               <label className="text-sm font-medium">Title</label>
               <input
                 value={product.title}
                 onChange={(e) =>
                   setProduct({ ...product, title: e.target.value })
+                }
+                className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+              />
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              <label className="text-sm font-medium">Description</label>
+              <input
+                value={product.description}
+                onChange={(e) =>
+                  setProduct({ ...product, description: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
               />

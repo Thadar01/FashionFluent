@@ -49,6 +49,7 @@ const CreateCategory = ({ setIsModel }) => {
           onChange={(e) => setName(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Category Name"
         />
       </div>
 
