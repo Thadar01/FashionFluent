@@ -14,7 +14,7 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <div className="bg-white h-[70px] flex  items-center gap-10 sticky top-0 z-50">
+    <div className="bg-[#FFFAF4] h-[70px] flex  items-center gap-10 sticky top-0 z-50">
       <div className="ml-4 mt-1">
         <Image
           src="/assets/logo.png"
@@ -46,9 +46,9 @@ const NavBar = () => {
       </button>
       {isMenuOpen && (
         <div className="flex flex-col bg-white w-full absolute top-12 gap-10 items-center justify-center pb-10 md:hidden lg:hidden">
-          {/* Your content here */}{" "}
+          {/* Your content here */}
           <Link
-            href=""
+            href={"/User"}
             className={`relative w-[10%] mt-10 after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
               pathname === "/User"
                 ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
@@ -59,7 +59,7 @@ const NavBar = () => {
           </Link>
           <div className="flex gap-2 relative w-[85px] ">
             <Link
-              href={""}
+              href={"/User/Products"}
               className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
                 pathname === "/User/Products"
                   ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
@@ -207,7 +207,7 @@ const NavBar = () => {
       )}
       <div className=" gap-11 hidden sm:flex">
         <Link
-          href=""
+          href={"/User"}
           className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
             pathname === "/User"
               ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
@@ -218,7 +218,7 @@ const NavBar = () => {
         </Link>
         <div className="flex gap-2 relative w-[85px] ">
           <Link
-            href={""}
+            href={"/User/Products"}
             className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
               pathname === "/User/Products"
                 ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
@@ -264,18 +264,27 @@ const NavBar = () => {
           {isProductDD && (
             <div className="bg-white flex flex-col absolute top-8 border-2 border-gray-200 h-[80px] w-full  items-center left-10">
               <Link
-                href={" "}
+                href={{ pathname: "/User/Products", query: { gender: "Male" } }}
                 className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px]  hover:bg-gray-300"
               >
                 Men
               </Link>
               <Link
-                href={""}
+                href={{
+                  pathname: "/User/Products",
+                  query: { gender: "Female" },
+                }}
                 className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px] hover:bg-gray-300"
               >
                 Women
               </Link>
-              <Link href={""} className="hover:bg-gray-300 w-full text-center">
+              <Link
+                href={{
+                  pathname: "/User/Products",
+                  query: { gender: "Unisex" },
+                }}
+                className="hover:bg-gray-300 w-full text-center"
+              >
                 UniSex
               </Link>
             </div>

@@ -68,23 +68,29 @@ export async function POST(request) {
 
 export async function GET(req) {
   try {
-    // Extract search query from request URL
     const { searchParams } = new URL(req.url);
-    const query = searchParams.get("q"); // `q` will be the search term (e.g., name or email)
+    const query = searchParams.get("q"); // Search term
+    const gender = searchParams.get("gender"); // Gender filter
 
-    let searchQuery = "SELECT * FROM products";
+    let searchQuery = "SELECT * FROM products WHERE 1=1";
     let queryParams = [];
 
     if (query) {
-      searchQuery += " WHERE ProductTitle LIKE ?";
-      queryParams = [`%${query}%`, `%${query}%`];
+      searchQuery += " AND ProductTitle LIKE ?";
+      queryParams.push(`%${query}%`);
+    }
+
+    if (gender) {
+      searchQuery += " AND Gender = ?";
+      queryParams.push(gender);
     }
 
     const [rows] = await db.execute(searchQuery, queryParams);
-    
+
     return new Response(JSON.stringify(rows), { status: 200 });
   } catch (error) {
-    console.error("Error fetching Product:", error);
+    console.error("Error fetching Products:", error);
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
+

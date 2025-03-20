@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 const Footer = () => {
   return (
-    <div className="bg-white w-full flex flex-col gap-7 py-4">
+    <div className="bg-[#FFFAF4] w-full flex flex-col gap-7 py-4">
       {/* Columns Container */}
       <div className="flex flex-col gap-10 sm:flex-row sm:justify-around sm:gap-4">
         {/* Shop Column */}
