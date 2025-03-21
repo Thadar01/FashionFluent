@@ -15,32 +15,35 @@ const handler = NextAuth({
         const { email, password, role } = credentials;
         console.log("Authorize called with", credentials);
 
-        try {
-          const [rows] = await db.query(
-            'SELECT * FROM staffs WHERE StaffEmail = ? AND StaffRole = ? LIMIT 1',
-            [email, role]
-          );
-
-          if (rows.length === 0) {
-            throw new Error("User not found");
+        let user;
+        
+          
+          if(role==='customer'){
+            const [rows] = await db.query(
+              "SELECT * FROM customers WHERE CustomerEmail = ? LIMIT 1",
+              [email]
+            );
+            if (rows.length === 0) throw new Error("User not found");
+            user = rows[0];
+            if (password !== user.CustomerPasswords) throw new Error("Invalid credentials");
+          
+  
+          }else{
+            const [rows] = await db.query(
+              "SELECT * FROM staffs WHERE StaffEmail = ? AND StaffRole = ? LIMIT 1",
+              [email, role]
+            );
+            if (rows.length === 0) throw new Error("User not found");
+            user = rows[0];
+            if (password !== user.StaffPasswords) throw new Error("Invalid credentials");
           }
-
-          const user = rows[0];
-
-          if (password !== user.StaffPasswords) {
-            throw new Error("Invalid credentials");
-          }
-
-          return {
-            id: user.StaffID,
-            name: user.StaffName,
-            email: user.StaffEmail,
-            role: user.StaffRole,
-          };
-        } catch (error) {
-          console.error("Authorize error:", error);
-          throw error;
-        }
+         
+        return {
+          id: user.CustomerID || user.StaffID,
+          name: user.CustomerName || user.StaffName,
+          email: user.CustomerEmail || user.StaffEmail,
+          role: user.StaffRole ,
+        };
       },
     }),
   ],
