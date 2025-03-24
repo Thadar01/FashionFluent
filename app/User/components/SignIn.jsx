@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const SignIn = () => {
   const router = useRouter();
@@ -83,6 +84,13 @@ const SignIn = () => {
           required
         />
       </div>
+
+      <Link
+        href={"/User/SignUp"}
+        className="underline mt-[-20px] hover:text-[#a14d31]"
+      >
+        Don't Have An Account? Register
+      </Link>
 
       <button
         type="submit"

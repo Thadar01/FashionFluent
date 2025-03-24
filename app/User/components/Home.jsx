@@ -1,19 +1,23 @@
+"use client";
 import React from "react";
 import NavBar from "./commom/NavBar";
 import Footer from "./commom/Footer";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
+  const { status } = useSession();
+
   return (
     <div>
       <NavBar />
-      {/* First Section with Background Image */}
-      {/* First Section with Background Image */}
+
       <div
         className="h-screen bg-cover bg-center flex flex-col items-center justify-center gap-3 px-4 text-center"
         style={{ backgroundImage: "url('/assets/registerBg.svg')" }}
       >
-        <p
+        <Link
+          href={"/User/Products"}
           className="text-3xl sm:text-5xl md:text-7xl lg:text-[100px] xl:text-[140px] font-bold text-[#FFF1E2]"
           style={{
             WebkitTextStroke: "1px #FF7C09",
@@ -21,15 +25,33 @@ const Home = () => {
           }}
         >
           Grab Our Promotions
-        </p>
-        <Link
-          href={""}
-          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl underline font-bold"
-        >
-          Register Now
         </Link>
+        {status === "unauthenticated" && (
+          <Link
+            href={"/User/SignUp"}
+            className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl underline font-bold"
+          >
+            Register Now
+          </Link>
+        )}
       </div>
 
+      <div
+        className="h-screen bg-cover bg-center flex flex-col items-center sm:items-start justify-center sm:justify-end p-6 sm:p-10 text-center sm:text-left"
+        style={{ backgroundImage: "url('/assets/thirdBg.svg')" }}
+      >
+        <div className="flex flex-col items-center sm:items-start">
+          <Link
+            href={{ pathname: "/User/Products", query: { gender: "Male" } }}
+            className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-bold"
+          >
+            Men's Wear Collection
+          </Link>
+          <p className="text-white font-bold text-sm sm:text-lg md:text-xl p-2">
+            Shine with Our Fashions
+          </p>
+        </div>
+      </div>
       {/* Second Section with Background Image */}
       <div
         className="h-screen bg-cover bg-center flex flex-col items-center sm:items-start justify-center sm:justify-end p-6 sm:p-10 text-center sm:text-left"
@@ -37,7 +59,7 @@ const Home = () => {
       >
         <div className="flex flex-col items-center sm:items-start">
           <Link
-            href={""}
+            href={{ pathname: "/User/Products", query: { gender: "Female" } }}
             className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-bold"
             style={{
               WebkitTextStroke: "1px black",
@@ -48,24 +70,6 @@ const Home = () => {
           </Link>
           <p className="font-bold text-sm sm:text-lg md:text-xl p-2">
             Prefer your Smart and Comfort
-          </p>
-        </div>
-      </div>
-
-      {/* Third Section with Background Image */}
-      <div
-        className="h-screen bg-cover bg-center flex flex-col items-center sm:items-start justify-center sm:justify-end p-6 sm:p-10 text-center sm:text-left"
-        style={{ backgroundImage: "url('/assets/thirdBg.svg')" }}
-      >
-        <div className="flex flex-col items-center sm:items-start">
-          <Link
-            href={""}
-            className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-bold"
-          >
-            Men's Wear Collection
-          </Link>
-          <p className="text-white font-bold text-sm sm:text-lg md:text-xl p-2">
-            Shine with Our Fashions
           </p>
         </div>
       </div>

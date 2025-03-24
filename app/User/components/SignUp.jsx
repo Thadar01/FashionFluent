@@ -1,6 +1,7 @@
 "use client";
 import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignUp = () => {
   const router = useRouter();
@@ -131,7 +132,12 @@ const SignUp = () => {
           required
         />
       </div>
-
+      <Link
+        href={"/User/SignIn"}
+        className="underline mt-[-20px] hover:text-[#a14d31]"
+      >
+        Already Have An Account? Sign In
+      </Link>
       <button
         type="submit"
         className="w-full bg-[#c88d4e]  p-2 rounded-lg hover:bg-[#a07445] mt-4"

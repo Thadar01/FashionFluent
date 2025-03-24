@@ -73,7 +73,7 @@ const Product = () => {
             {filteredProducts.map((p) => (
               <div
                 key={p.ProductID}
-                className="bg-[#FFFAF4] rounded-xl flex flex-col items-center gap-5 "
+                className="bg-[#FFFAF4] rounded-xl flex flex-col items-center gap-5 shadow-xl"
               >
                 <Link
                   href={""}

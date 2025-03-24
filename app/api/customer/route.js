@@ -20,7 +20,7 @@ export async function POST(request) {
     if (lastRecord.length > 0) {
       const lastId = lastRecord[0].CustomerID; // Example: "S-009"
       const numericPart = parseInt(lastId.split("-")[1], 10) + 1; // Extract number and increment
-      newCustomerID = `P-${numericPart.toString().padStart(3, "0")}`; // Format as "S-XXX"
+      newCustomerID = `C-${numericPart.toString().padStart(3, "0")}`; // Format as "S-XXX"
     }
 
 

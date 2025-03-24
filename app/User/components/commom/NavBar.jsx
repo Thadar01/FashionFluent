@@ -292,7 +292,7 @@ const NavBar = () => {
           )}
         </div>
         <Link
-          href={""}
+          href={"/User/Feedbacks"}
           className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
             pathname === "/User/Feedbacks"
               ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
@@ -302,16 +302,17 @@ const NavBar = () => {
           Feedbacks
         </Link>
         <div className="flex gap-2 relative w-[50px] ">
-          <Link
-            href={""}
+          <button
+            onClick={() => setIsInfoDD(!isInfoDD)}
             className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
               pathname === "/User/Info"
-                ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
+                ? "after:bg-[#FFD2A2] after:scale-x-100" // Active button underline
                 : "after:bg-[#FFD2A2] after:scale-x-0 hover:after:scale-x-100"
             }`}
           >
             Info
-          </Link>
+          </button>
+          {/* <p>{session?.user?.name}</p> */}
           <button onClick={() => setIsInfoDD(!isInfoDD)}>
             {isInfoDD ? (
               <svg
