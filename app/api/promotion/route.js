@@ -44,21 +44,28 @@ export async function GET(req) {
   try {
     // Extract search query from request URL
     const { searchParams } = new URL(req.url);
-    const query = searchParams.get("q"); // `q` will be the search term (e.g., name or email)
+    const query = searchParams.get("q"); // `q` is the search term (e.g., name or email)
+    const promotionID = searchParams.get("promotionID");
 
     let searchQuery = "SELECT * FROM promotions";
     let queryParams = [];
 
+    if (promotionID) {
+      searchQuery += " WHERE PromotionID = ?";
+      queryParams.push(promotionID);
+    }
+
     if (query) {
-      searchQuery += " WHERE PromotionTitle LIKE ?";
-      queryParams = [`%${query}%`, `%${query}%`];
+      searchQuery += promotionID ? " AND " : " WHERE ";
+      searchQuery += "PromotionTitle LIKE ?";
+      queryParams.push(`%${query}%`);
     }
 
     const [rows] = await db.execute(searchQuery, queryParams);
-    
+
     return new Response(JSON.stringify(rows), { status: 200 });
   } catch (error) {
-    console.error("Error fetching staff:", error);
+    console.error("Error fetching promotions:", error);
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }

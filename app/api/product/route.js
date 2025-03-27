@@ -69,11 +69,18 @@ export async function POST(request) {
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
+    const productID=searchParams.get('productID')
     const query = searchParams.get("q"); // Search term
     const gender = searchParams.get("gender"); // Gender filter
 
     let searchQuery = "SELECT * FROM products WHERE 1=1";
     let queryParams = [];
+
+
+    if (productID) {
+      searchQuery += " AND ProductID = ?";
+      queryParams.push(productID);
+    }
 
     if (query) {
       searchQuery += " AND ProductTitle LIKE ?";

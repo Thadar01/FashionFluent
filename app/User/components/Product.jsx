@@ -91,9 +91,15 @@ const Product = () => {
                   <p className="font-bold">{p.ProductTitle}</p>
                   <p>Price: {p.ProductPrice} MMK</p>
                 </div>
-                <button className="w-full bg-[#eab174]  p-3 font-bold hover:bg-opacity-60">
-                  Add to Cart
-                </button>
+                <Link
+                  href={{
+                    pathname: "/User/ProductDetails",
+                    query: { productID: p.ProductID },
+                  }}
+                  className="w-full bg-[#eab174]  p-3 font-bold hover:bg-opacity-60 text-center"
+                >
+                  View Details
+                </Link>
               </div>
             ))}
           </div>
