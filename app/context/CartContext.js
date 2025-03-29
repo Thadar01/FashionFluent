@@ -27,9 +27,30 @@ export const CartProvider = ({ children }) => {
     return cartItems.length;
   };
 
+  const increaseQuantity = (id) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id && item.quantity < item.stock
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+
+
+  const decreaseQuantity = (id) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, getCartItemCount }}
+      value={{ cartItems, addToCart, removeFromCart, getCartItemCount,increaseQuantity,decreaseQuantity }}
     >
       {children}
     </CartContext.Provider>

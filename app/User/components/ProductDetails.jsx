@@ -89,6 +89,7 @@ const ProductDetails = () => {
       price: product.ProductPrice,
       image: product.Image,
       quantity: number, // Current quantity selected
+      stock: product.Stock,
       selectedColor,
       selectedSize,
     };
