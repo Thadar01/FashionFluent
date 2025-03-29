@@ -22,10 +22,16 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const clearCart = () => {
+    setCartItems([]); // Resets cart to an empty array
+  };
+
+
   // Function to get the total count of items in the cart
   const getCartItemCount = () => {
     return cartItems.length;
   };
+
 
   const increaseQuantity = (id) => {
     setCartItems((prevItems) =>
@@ -50,7 +56,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, getCartItemCount,increaseQuantity,decreaseQuantity }}
+      value={{ cartItems, addToCart, removeFromCart, getCartItemCount,increaseQuantity,decreaseQuantity ,clearCart}}
     >
       {children}
     </CartContext.Provider>
