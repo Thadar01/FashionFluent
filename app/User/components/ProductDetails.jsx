@@ -86,7 +86,7 @@ const ProductDetails = () => {
     const cartProduct = {
       id: product.ProductID,
       title: product.ProductTitle,
-      price: product.ProductPrice,
+      price: discountPrice ?? product.ProductPrice,
       image: product.Image,
       quantity: number, // Current quantity selected
       stock: product.Stock,
@@ -134,7 +134,7 @@ const ProductDetails = () => {
                   <p>{promotion.PromoDes}</p>
                   {/* Show Discount Price */}
                   <p className=" font-bold">
-                    Discount Price: {discountPrice?.toFixed(2)} MMK
+                    Discount Price: {discountPrice} MMK
                   </p>
                 </div>
               )}

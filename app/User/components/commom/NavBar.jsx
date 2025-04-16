@@ -186,7 +186,7 @@ const NavBar = () => {
             {isInfoDD && (
               <div className="bg-white flex flex-col absolute top-8 border-2 border-gray-200 h-[90px] w-[120px]  items-center left-10">
                 <Link
-                  href={" "}
+                  href={"User/AboutUs"}
                   className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px]  hover:bg-gray-300"
                 >
                   About Us
@@ -352,7 +352,7 @@ const NavBar = () => {
           {isInfoDD && (
             <div className="bg-white flex flex-col absolute top-8 border-2 border-gray-200 h-[90px] w-[120px]  items-center left-10">
               <Link
-                href={" "}
+                href={"User/AboutUs"}
                 className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px]  hover:bg-gray-300"
               >
                 About Us

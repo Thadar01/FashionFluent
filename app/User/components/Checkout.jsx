@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import NavBar from "../components/commom/NavBar";
 import Footer from "../components/commom/Footer";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Checkout = () => {
   const router = useRouter();
@@ -109,150 +110,173 @@ const Checkout = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <NavBar />
-      <div className="max-w-lg mx-auto p-5 border rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Checkout</h2>
-        {error && <p className="text-red-500">{error}</p>}
-
-        {/* Cart Summary (Read-Only) */}
-        <div className="border p-4 rounded mb-5 bg-gray-100">
-          <h3 className="text-xl font-semibold mb-3">Order Summary</h3>
-          {cartItems.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
-            cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center gap-4 border-b pb-3 mb-3"
-              >
-                <Image
-                  src={item.image}
-                  width={60}
-                  height={60}
-                  alt={item.title}
-                />
-                <div className="flex justify-between w-full">
-                  <div>
-                    <h2 className="text-lg">
-                      {item.title} - {item.selectedColor} - {item.selectedSize}
-                    </h2>
-                    <p>{item.price} MMK</p>
-                    <p>Qty: {item.quantity}</p>
-                  </div>
-                  <p className="font-semibold">
-                    {item.price * item.quantity} MMK
-                  </p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleOrder();
-          }}
-          className="space-y-4"
+      <Link href={"User/Cart"} className="ml-10 flex ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
         >
-          {/* Name */}
-          <div>
-            <label className="block font-semibold">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 19.5 8.25 12l7.5-7.5"
+          />
+        </svg>
+        Back to Cart
+      </Link>
+      <div className="flex flex-col md:flex-row gap-6 w-full items-center md:items-start md:justify-around mb-9">
+        <div className="lg:w-[60%] w-[85%] p-5 border rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+          {error && <p className="text-red-500">{error}</p>}
 
-          {/* Email */}
-          <div>
-            <label className="block font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
+          {/* Cart Summary (Read-Only) */}
 
-          {/* Phone */}
-          <div>
-            <label className="block font-semibold">Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
-
-          {/* Address */}
-          <div>
-            <label className="block font-semibold">Shipping Address</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
-
-          {/* Delivery Method Dropdown */}
-          <div>
-            <label className="block font-semibold">Delivery City/Region</label>
-            {loading ? (
-              <p>Loading delivery options...</p>
-            ) : (
-              <select
-                name="deliveryMethod"
-                value={formData.deliveryMethod}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleOrder();
+            }}
+            className="space-y-4"
+          >
+            {/* Name */}
+            <div>
+              <label className="block font-semibold">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
                 required
-              >
-                <option value="">Select City/Region</option>
-                {delivery.map((option) => (
-                  <option key={option.DeliveryID} value={option.DeliveryID}>
-                    {option.DeliveryRegion} - {option.DeliveryCost} MMK
-                  </option>
-                ))}
-              </select>
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="block font-semibold">Phone</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block font-semibold">Address</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              />
+            </div>
+
+            {/* Delivery Method Dropdown */}
+            <div>
+              <label className="block font-semibold">
+                Delivery City/Region
+              </label>
+              {loading ? (
+                <p>Loading delivery options...</p>
+              ) : (
+                <select
+                  name="deliveryMethod"
+                  value={formData.deliveryMethod}
+                  onChange={handleChange}
+                  className="w-full border p-2 rounded"
+                  required
+                >
+                  <option value="">Select City/Region</option>
+                  {delivery.map((option) => (
+                    <option key={option.DeliveryID} value={option.DeliveryID}>
+                      {option.DeliveryRegion} - {option.DeliveryCost} MMK
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            {/* Payment Method */}
+            <div>
+              <label className="block font-semibold">Payment Method</label>
+              <p>Cash on Delivery</p>
+            </div>
+
+            {/* Order Total */}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-2 rounded font-semibold hover:bg-blue-600"
+            >
+              Place Order
+            </button>
+          </form>
+        </div>
+        <div className="flex flex-col lg:w-[30%] w-[85%]">
+          <div className="border p-4 rounded mb-5 bg-gray-100">
+            <h3 className="text-xl font-semibold mb-3">Order Summary</h3>
+            {cartItems.length === 0 ? (
+              <p>Your cart is empty.</p>
+            ) : (
+              cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center gap-4 border-b pb-3 mb-3"
+                >
+                  <Image
+                    src={item.image}
+                    width={60}
+                    height={60}
+                    alt={item.title}
+                  />
+                  <div className="flex justify-between w-full">
+                    <div>
+                      <h2 className="text-lg">
+                        {item.title} - {item.selectedColor} -{" "}
+                        {item.selectedSize}
+                      </h2>
+                      <p>{item.price} MMK</p>
+                      <p>Qty: {item.quantity}</p>
+                    </div>
+                    <p className="font-semibold">
+                      {item.price * item.quantity} MMK
+                    </p>
+                  </div>
+                </div>
+              ))
             )}
-          </div>
-
-          {/* Payment Method */}
-          <div>
-            <label className="block font-semibold">Payment Method</label>
-            <p>Cash on Delivery</p>
-          </div>
-
-          {/* Order Total */}
-          <div className="p-3 border rounded bg-gray-100">
             <h3 className="font-semibold">Subtotal: {totalCartAmount} MMK</h3>
             <h3 className="font-semibold">Delivery Fee: {deliveryFee} MMK</h3>
             <h3 className="font-semibold text-lg">Total: {finalTotal} MMK</h3>
           </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded font-semibold hover:bg-blue-600"
-          >
-            Place Order
-          </button>
-        </form>
+        </div>
       </div>
+
       <Footer />
     </div>
   );

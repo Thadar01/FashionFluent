@@ -3,11 +3,11 @@ import db from "../../../lib/db";
 
 export async function POST(request) {
   try {
-    const { region,city,cost } = await request.json();
+    const { region,cost } = await request.json();
 
 
     // Check if all fields are provided
-    if (!region || !city || !cost ) {
+    if (!region  || !cost ) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,
       });
@@ -41,8 +41,8 @@ export async function POST(request) {
 
     // Proceed with insertion if the user doesn't exist
     const insertQuery =
-      "INSERT INTO deliveries (DeliveryID,DeliveryRegion,DeliveryCity,DeliveryCost) VALUES (?,?, ?, ? )";
-    const values = [newDeliveryID,region,city,cost];
+      "INSERT INTO deliveries (DeliveryID,DeliveryRegion,DeliveryCost) VALUES (?, ?, ? )";
+    const values = [newDeliveryID,region,cost];
     await db.execute(insertQuery, values);
 
     return new Response(
@@ -67,7 +67,7 @@ export async function GET(req) {
     let queryParams = [];
 
     if (query) {
-      searchQuery += " WHERE DeliveryRegion LIKE ? OR DeliveryCity LIKE ?";
+      searchQuery += " WHERE DeliveryRegion LIKE ?";
       queryParams = [`%${query}%`, `%${query}%`];
     }
 

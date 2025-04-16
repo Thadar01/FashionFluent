@@ -4,13 +4,12 @@ import React, { useState } from "react";
 const CreateDelivery = ({ setIsModel }) => {
   const [delivery, setDelivery] = useState({
     region: "",
-    city: "",
     cost: "",
   });
   const handleAddDelivery = async () => {
-    const { region, city, cost } = delivery;
+    const { region, cost } = delivery;
 
-    if (!region || !city || !cost) {
+    if (!region || !cost) {
       alert("All fields are required");
       return;
     }
@@ -19,7 +18,7 @@ const CreateDelivery = ({ setIsModel }) => {
       const res = await fetch("/api/delivery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ region, city, cost }),
+        body: JSON.stringify({ region, cost }),
       });
 
       const data = await res.json();
@@ -58,18 +57,6 @@ const CreateDelivery = ({ setIsModel }) => {
             className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
             required
             placeholder="Delivery Region"
-          />
-        </div>
-
-        {/* City Input */}
-        <div>
-          <label className="block text-sm font-medium mb-1">City</label>
-          <input
-            value={delivery.city}
-            onChange={(e) => setDelivery({ ...delivery, city: e.target.value })}
-            className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
-            required
-            placeholder="Delivery City"
           />
         </div>
 

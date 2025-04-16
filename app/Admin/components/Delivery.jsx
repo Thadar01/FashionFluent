@@ -49,11 +49,7 @@ const Delivery = () => {
             (deli) =>
               deli.DeliveryRegion.toLowerCase().includes(
                 searchQuery.toLowerCase()
-              ) ||
-              deli.DeliveryCity.toLowerCase().includes(
-                searchQuery.toLowerCase()
-              ) ||
-              deli.DeliveryCost.toString().includes(searchQuery)
+              ) || deli.DeliveryCost.toString().includes(searchQuery)
           )
         );
       }
@@ -107,7 +103,7 @@ const Delivery = () => {
           <div className="relative w-[20%] my-3">
             <input
               type="text"
-              placeholder="Search by region and city..."
+              placeholder="Search by region...."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border p-2 w-full rounded-lg"
@@ -130,13 +126,11 @@ const Delivery = () => {
 
           {/* Delivery Table */}
           <div className="w-[50%]">
-            <div className="grid grid-cols-3 w-[70%]">
+            <div className="grid grid-cols-2 w-[70%]">
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                Region
+                Region/City
               </div>
-              <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
-                City
-              </div>
+
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
                 Cost
               </div>
@@ -151,15 +145,13 @@ const Delivery = () => {
               <div>
                 {filteredDelivery.map((deli) => (
                   <div key={deli.DeliveryID} className="flex">
-                    <div className="grid grid-cols-3 w-[70%]">
+                    <div className="grid grid-cols-2 w-[70%]">
                       <div className="border border-black text-center py-2">
                         {deli.DeliveryRegion}
                       </div>
+
                       <div className="border border-black text-center py-2">
-                        {deli.DeliveryCity}
-                      </div>
-                      <div className="border border-black text-center py-2">
-                        {deli.DeliveryCost} Ks
+                        {deli.DeliveryCost} MMK
                       </div>
                     </div>
                     <div className="flex justify-end">

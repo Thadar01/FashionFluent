@@ -23,7 +23,7 @@ const Cart = () => {
           <p>Your cart is empty.</p>
         ) : (
           <div className="flex flex-col items-center justify-center">
-            <div className=" w-[60%] mb-2">
+            <div className=" w-[100%] lg:w-[60%] mb-2">
               <Link href={"/User/Products"} className=" mb-4 flex">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,10 @@ const Cart = () => {
             </div>
 
             {cartItems.map((item) => (
-              <div key={item.id} className="flex gap-4 border p-3 mb-3 w-[60%]">
+              <div
+                key={item.id}
+                className="flex gap-4 border p-3 mb-3  w-[100%] lg:w-[60%]"
+              >
                 <Image
                   src={item.image}
                   width={100}
@@ -98,7 +101,7 @@ const Cart = () => {
             ))}
 
             {/* Total Price Section */}
-            <div className="mt-5 p-4 border w-[60%] text-xl flex justify-between ">
+            <div className="mt-5 p-4 border lg:w-[60%] w-[100%] text-xl flex justify-between ">
               <span>Total Price:{totalPrice} MMK</span>
               <Link href={"/User/Checkout"}>Check Out</Link>
             </div>

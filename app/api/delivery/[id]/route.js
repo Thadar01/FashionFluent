@@ -61,31 +61,30 @@ export async function PUT(req, { params }) {
     return new Response(JSON.stringify({ error: "Invalid request body" }), { status: 400 });
   }
 
-  const { region, city, cost } = requestBody;
+  const { region, cost } = requestBody;
 
   // Check for missing data
-  if (!region || !city || !cost) {
-    return new Response(JSON.stringify({ error: "Missing delivery data (region, city, or cost)" }), { status: 400 });
+  if (!region  || !cost) {
+    return new Response(JSON.stringify({ error: "Missing delivery data (region, or cost)" }), { status: 400 });
   }
 
   try {
-    // Check if the same region and city already exist (excluding the current delivery)
     const checkQuery = `
-      SELECT * FROM deliveries WHERE DeliveryRegion = ? AND DeliveryCity = ? AND DeliveryID != ?
+      SELECT * FROM deliveries WHERE DeliveryRegion = ?  AND DeliveryID != ?
     `;
-    const [existingDelivery] = await db.execute(checkQuery, [region, city, id]);
+    const [existingDelivery] = await db.execute(checkQuery, [region, id]);
 
     if (existingDelivery.length > 0) {
-      return new Response(JSON.stringify({ error: "Same region and city already exist" }), { status: 409 });
+      return new Response(JSON.stringify({ error: "Same region already exist" }), { status: 409 });
     }
 
     // Update delivery data
     const updateQuery = `
       UPDATE deliveries
-      SET DeliveryRegion = ?, DeliveryCity = ?, DeliveryCost = ?
+      SET DeliveryRegion = ?, DeliveryCost = ?
       WHERE DeliveryID = ?
     `;
-    const [result] = await db.execute(updateQuery, [region, city, cost, id]);
+    const [result] = await db.execute(updateQuery, [region, cost, id]);
 
     if (result.affectedRows === 0) {
       return new Response(JSON.stringify({ error: "Delivery not found" }), { status: 404 });

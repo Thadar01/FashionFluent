@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 const EditDelivery = ({ setEdit, id }) => {
   const [delivery, setDelivery] = useState({
     region: "",
-    city: "",
     cost: "",
   });
   const [loading, setLoading] = useState(true);
@@ -19,7 +18,6 @@ const EditDelivery = ({ setEdit, id }) => {
         if (res.ok) {
           setDelivery({
             region: data.DeliveryRegion,
-            city: data.DeliveryCity,
             cost: data.DeliveryCost,
           });
         } else {
@@ -39,7 +37,7 @@ const EditDelivery = ({ setEdit, id }) => {
   }, [id]);
 
   const handleUpdateDelivery = async () => {
-    if (!delivery.region || !delivery.city || !delivery.cost) {
+    if (!delivery.region || !delivery.cost) {
       alert("All fields are required");
       return;
     }
@@ -77,23 +75,13 @@ const EditDelivery = ({ setEdit, id }) => {
         <div className="flex flex-col gap-4">
           {/* Region Input */}
           <div>
-            <label className="block text-sm font-medium mb-1">Region</label>
+            <label className="block text-sm font-medium mb-1">
+              Region/City
+            </label>
             <input
               value={delivery.region}
               onChange={(e) =>
                 setDelivery({ ...delivery, region: e.target.value })
-              }
-              className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
-            />
-          </div>
-
-          {/* City Input */}
-          <div>
-            <label className="block text-sm font-medium mb-1">City</label>
-            <input
-              value={delivery.city}
-              onChange={(e) =>
-                setDelivery({ ...delivery, city: e.target.value })
               }
               className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
             />
