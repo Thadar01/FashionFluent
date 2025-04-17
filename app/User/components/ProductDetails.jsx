@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./commom/NavBar";
 import Footer from "./commom/Footer";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "../../context/CartContext";
+import { useSession } from "next-auth/react";
 
 const ProductDetails = () => {
   const Params = useSearchParams();
@@ -17,6 +18,7 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [number, setNumber] = useState(1);
   const { addToCart } = useCart();
+  const { data: session } = useSession();
 
   const fetchProduct = async () => {
     try {
@@ -81,21 +83,32 @@ const ProductDetails = () => {
   const today = new Date().setHours(0, 0, 0, 0); // Get today's timestamp
 
   const handleAddToCart = () => {
+    if (!session) {
+      alert("Please register first.");
+      redirect("/User/SignIn");
+      return;
+    }
     if (!product) return;
 
-    const cartProduct = {
-      id: product.ProductID,
-      title: product.ProductTitle,
-      price: discountPrice ?? product.ProductPrice,
-      image: product.Image,
-      quantity: number, // Current quantity selected
-      stock: product.Stock,
-      selectedColor,
-      selectedSize,
-    };
+    if (selectedColor === "") {
+      window.alert("Please Select the desired color");
+    } else if (selectedSize === "") {
+      window.alert("Please select the size");
+    } else {
+      const cartProduct = {
+        id: product.ProductID,
+        title: product.ProductTitle,
+        price: discountPrice ?? product.ProductPrice,
+        image: product.Image,
+        quantity: number, // Current quantity selected
+        stock: product.Stock,
+        selectedColor,
+        selectedSize,
+      };
 
-    addToCart(cartProduct); // Add to cart
-    console.log(cartProduct);
+      addToCart(cartProduct); // Add to cart
+      console.log(cartProduct);
+    }
   };
   return (
     <div>

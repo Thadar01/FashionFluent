@@ -11,9 +11,37 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   // Function to add item to cart
-  const addToCart = (item) => {
-    setCartItems((prevItems) => [...prevItems, item]);
+
+
+  const addToCart = (newItem) => {
+    setCartItems((prevItems) => {
+      const existingIndex = prevItems.findIndex(
+        (item) =>
+          item.id === newItem.id &&
+          item.selectedColor === newItem.selectedColor &&
+          item.selectedSize === newItem.selectedSize
+      );
+
+      if (existingIndex !== -1) {
+        // Update quantity of existing item
+        const updatedItems = [...prevItems];
+        const existingItem = updatedItems[existingIndex];
+
+        // Avoid exceeding stock
+        const totalQuantity = existingItem.quantity + newItem.quantity;
+        updatedItems[existingIndex] = {
+          ...existingItem,
+          quantity: Math.min(totalQuantity, existingItem.stock),
+        };
+
+        return updatedItems;
+      }
+
+      // If not in cart, add as new item
+      return [...prevItems, newItem];
+    });
   };
+
 
   // Function to remove item from cart
   const removeFromCart = (itemId) => {

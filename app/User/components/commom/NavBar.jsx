@@ -3,12 +3,15 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../../../context/CartContext";
 
 const NavBar = () => {
   const pathname = usePathname();
   const [isProductDD, setIsProductDD] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isInfoDD, setIsInfoDD] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
   const { data: session, status } = useSession();
@@ -16,6 +19,42 @@ const NavBar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    const fetchProductAndCategories = async () => {
+      try {
+        const [productRes] = await Promise.all([fetch("/api/product")]);
+        const productData = await productRes.json();
+        console.log("Fetched products:", productData);
+
+        if (productRes.ok) {
+          setProduct(productData);
+        } else {
+          console.log("An error occurred while fetching data.");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProductAndCategories();
+  }, []);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = product.filter((item) =>
+      item.ProductTitle?.toLowerCase().includes(value.toLowerCase())
+    );
+    setSearchResults(results);
+    console.log("result", results);
+  };
+
   return (
     <div className="bg-[#FFFAF4] h-[70px] flex  items-center gap-10 sticky top-0 z-50">
       <div className="ml-4 mt-1">
@@ -192,7 +231,7 @@ const NavBar = () => {
                   About Us
                 </Link>
                 <Link
-                  href={""}
+                  href={"/User/QA"}
                   className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px] hover:bg-gray-300"
                 >
                   Q&A
@@ -352,18 +391,21 @@ const NavBar = () => {
           {isInfoDD && (
             <div className="bg-white flex flex-col absolute top-8 border-2 border-gray-200 h-[90px] w-[120px]  items-center left-10">
               <Link
-                href={"User/AboutUs"}
+                href={"/User/AboutUs"}
                 className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px]  hover:bg-gray-300"
               >
                 About Us
               </Link>
               <Link
-                href={""}
+                href={"/User/QA"}
                 className="border-x-0 border-t-0 border-b-2 border-gray-200 w-full text-center h-[30px] hover:bg-gray-300"
               >
                 Q&A
               </Link>
-              <Link href={""} className="hover:bg-gray-300 w-full text-center">
+              <Link
+                href={"/User/PrivacyPolicy"}
+                className="hover:bg-gray-300 w-full text-center"
+              >
                 Privacy/Policy
               </Link>
             </div>
@@ -400,8 +442,10 @@ const NavBar = () => {
           {/* Search Input (Hidden on Small Screens) */}
           <input
             type="text"
-            placeholder="Search by name..."
-            className="border p-2 w-full rounded-lg sm:block hidden" // Hidden on small screens
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="border px-3 py-1 rounded-md"
           />
           {/* Search Icon (Visible on Small Screens) */}
           <button
@@ -444,6 +488,33 @@ const NavBar = () => {
               d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
             />
           </svg>
+          {searchResults.length > 0 && (
+            <div className="absolute bg-white border border-gray-200 rounded-md shadow-md mt-1 w-full z-50">
+              {searchResults.map((item) => (
+                <div
+                  key={item.ProductID}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  <Link
+                    href={{
+                      pathname: "/User/ProductDetails",
+                      query: { productID: item.ProductID },
+                    }}
+                    className="flex justify-around items-center"
+                  >
+                    <Image
+                      src={item.Image}
+                      width={50}
+                      height={50}
+                      alt={item.ProductTitle}
+                      className="rounded-lg"
+                    />
+                    {item.ProductTitle}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {status === "authenticated" ? (

@@ -4,16 +4,23 @@ import NavBar from "./commom/NavBar";
 import Footer from "./commom/Footer";
 import { useCart } from "../../context/CartContext";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Cart = () => {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } =
     useCart();
+  const { data: session } = useSession();
 
   // Calculate total price
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  if (!session) {
+    redirect("/User/SignIn");
+  }
 
   return (
     <div className="flex flex-col">
