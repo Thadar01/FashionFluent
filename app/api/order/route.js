@@ -110,3 +110,34 @@ export async function POST(request) {
         });
     }
 }
+
+
+export async function GET(req) {
+    try {
+      const { searchParams } = new URL(req.url);
+      const date = searchParams.get("date"); // Search for a specific date
+  
+      let searchQuery = "SELECT * FROM orders";
+      let queryParams = [];
+      let conditions = [];
+  
+      // Search by a specific date
+      if (date) {
+        conditions.push("OrderDate = ?");
+        queryParams.push(date);
+      }
+  
+      // Append conditions if any exist
+      if (conditions.length > 0) {
+        searchQuery += " WHERE " + conditions.join(" AND ");
+      }
+  
+      const [rows] = await db.execute(searchQuery, queryParams);
+  
+      return new Response(JSON.stringify(rows), { status: 200 });
+    } catch (error) {
+      console.error("Error fetching purchases:", error);
+      return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
+    }
+  }
+  

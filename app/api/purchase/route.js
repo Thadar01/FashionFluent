@@ -44,29 +44,38 @@ export async function POST(request) {
         // Generate new PurchaseDetailID
         const getLastIdQuery = "SELECT PurchasedetailID FROM purchasedetails ORDER BY PurchasedetailID DESC LIMIT 1";
         const [lastRecord] = await db.execute(getLastIdQuery);
-  
-        let newPurchaseDetailID = "PD-001"; // Default ID if no records exist
-  
+      
+        let newPurchaseDetailID = "PD-001";
         if (lastRecord.length > 0) {
-          const lastId = lastRecord[0].PurchasedetailID; // Example: "PD-009"
-          const numericPart = parseInt(lastId.split("-")[1], 10) + 1; // Extract number and increment
-          newPurchaseDetailID = `PD-${numericPart.toString().padStart(3, "0")}`; // Format as "PD-XXX"
+          const lastId = lastRecord[0].PurchasedetailID;
+          const numericPart = parseInt(lastId.split("-")[1], 10) + 1;
+          newPurchaseDetailID = `PD-${numericPart.toString().padStart(3, "0")}`;
         }
-  
+      
+        // Insert into purchasedetails
         const insertProductQuery = `
           INSERT INTO purchasedetails (PurchaseDetailID, ProductID, UnitQuantity, UnitPrice, UnitTotalPrice, PurchaseID)
           VALUES (?, ?, ?, ?, ?, ?)
         `;
         const productValues = [
           newPurchaseDetailID,
-          product.ProductID, // Ensure each product object has a ProductID
+          product.ProductID,
           product.quantity,
           product.price,
           product.totalPrice,
-          newPurchaseID, // Use the generated PurchaseID
+          newPurchaseID,
         ];
         await db.execute(insertProductQuery, productValues);
+      
+        // ✅ Update product quantity
+        const updateProductQuantityQuery = `
+          UPDATE products
+          SET Stock = Stock + ?
+          WHERE ProductID = ?
+        `;
+        await db.execute(updateProductQuantityQuery, [product.quantity, product.ProductID]);
       }
+      
   
       return new Response(
         JSON.stringify({ message: "Purchase recorded successfully" }),
