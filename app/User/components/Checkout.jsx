@@ -18,6 +18,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
+    id: session?.user.id || "",
     name: session?.user.name || "",
     email: session?.user.email || "",
     phone: "",
@@ -74,6 +75,7 @@ const Checkout = () => {
         address: formData.address,
         phoneNo: formData.phone,
         email: formData.email,
+        id: formData.id,
         orderStatus: false,
         carts: cartItems.map((item) => ({
           ProductID: item.id,
@@ -201,7 +203,7 @@ const Checkout = () => {
                 Delivery City/Region
               </label>
               {loading ? (
-                <p>Loading delivery options...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : (
                 <select
                   name="deliveryMethod"
@@ -231,14 +233,14 @@ const Checkout = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded font-semibold hover:bg-blue-600"
+              className="w-full bg-[#e3a775] p-2 rounded font-semibold hover:bg-[#c98b58] "
             >
               Place Order
             </button>
           </form>
         </div>
         <div className="flex flex-col lg:w-[30%] w-[85%]">
-          <div className="border p-4 rounded mb-5 bg-gray-100">
+          <div className="border-2 p-4 rounded mb-5 bg-white border-[#e3a775] ">
             <h3 className="text-xl font-semibold mb-3">Order Summary</h3>
             {cartItems.length === 0 ? (
               <p>Your cart is empty.</p>

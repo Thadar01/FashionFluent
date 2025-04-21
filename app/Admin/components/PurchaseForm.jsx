@@ -203,7 +203,9 @@ const PurchaseForm = () => {
   return (
     <div>
       <div className={`flex`}>
-        <NavBar />
+        <div className="w-[16%]">
+          <NavBar />
+        </div>
         <div className="p-6 w-full items-center flex flex-col gap-10">
           <h1 className="text-2xl font-bold mb-4">Purchase Product Form</h1>
           <div className="flex justify-around w-[90%]">
@@ -222,7 +224,7 @@ const PurchaseForm = () => {
                     Supplier
                   </label>
                   {loading ? (
-                    <p className="text-gray-500">Loading suppliers...</p>
+                    <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
                   ) : (
                     <select
                       value={selectedSupplier}

@@ -102,7 +102,9 @@ export const NavBar = () => {
   }, [status, router]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
+    );
   }
 
   if (status === "unauthenticated") {
@@ -110,7 +112,7 @@ export const NavBar = () => {
   }
 
   return (
-    <div className="bg-[#FFD2A2] bg-opacity-50 w-[16%] h-screen sticky top-0">
+    <div className="bg-[#FFD2A2] bg-opacity-50 w-full h-screen sticky top-0">
       {/* Profile Section */}
       <div className="flex flex-row gap-7 p-3 border-b-2 border-black border-opacity-15 relative">
         <Image

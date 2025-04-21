@@ -130,7 +130,7 @@ const Feedbacks = () => {
     <div>
       <div className={`${isModal ? "filter blur-sm" : ""}`}>
         <NavBar />
-        <div className="bg-white px-7 py-3">
+        <div className=" px-7 py-3 min-h-screen">
           <button
             onClick={() => {
               setIsModal(true);
@@ -143,27 +143,33 @@ const Feedbacks = () => {
           </button>
           {feedbacks.length === 0 ? (
             loading ? (
-              <p className="p-4">Loading...</p>
+              <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
             ) : (
               <p className="p-4">No feedback available</p>
             )
           ) : (
-            <div className="p-4 grid grid-cols-2 gap-16 pb-10">
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
               {feedbacks.map((fed) => (
                 <div
                   key={fed.FeedbackID}
-                  className="shadow-lg p-3 relative bg-[#f7e4cd] rounded-md"
+                  className="relative bg-white rounded-2xl shadow-md p-5 border border-gray-100 transition hover:shadow-xl"
                 >
-                  <p className="font-semibold">
-                    {getCustomerName(fed.CustomerID)}
+                  <div className="mb-3">
+                    <p className="text-lg font-semibold text-gray-800">
+                      {getCustomerName(fed.CustomerID)}
+                    </p>
+                  </div>
+
+                  <p className="text-gray-700 leading-relaxed">
+                    {fed.Feedback}
                   </p>
-                  <p className="mt-2">{fed.Feedback}</p>
 
                   {fed.CustomerID === userID && (
-                    <div className="absolute top-2 right-2 flex gap-2">
+                    <div className="absolute top-4 right-4 flex gap-3">
                       <button
                         onClick={() => handleEdit(fed)}
-                        className="text-black hover:text-gray-600 text-[15px]"
+                        className="text-blue-500 hover:text-blue-700 transition"
+                        title="Edit"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +177,7 @@ const Feedbacks = () => {
                           viewBox="0 0 28 28"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="size-6"
+                          className="w-5 h-5"
                         >
                           <path
                             strokeLinecap="round"
@@ -182,7 +188,8 @@ const Feedbacks = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(fed.FeedbackID)}
-                        className="text-red-600 hover:text-red-400"
+                        className="text-red-500 hover:text-red-700 transition"
+                        title="Delete"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +197,7 @@ const Feedbacks = () => {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="size-6"
+                          className="w-5 h-5"
                         >
                           <path
                             strokeLinecap="round"

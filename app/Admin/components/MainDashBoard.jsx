@@ -8,7 +8,9 @@ const MainDashBoard = () => {
 
   return (
     <div className="flex">
-      <NavBar />
+      <div className="w-[13.5%]">
+        <NavBar />
+      </div>
       <div className="flex-grow p-8">
         <h1 className="text-2xl font-bold">Welcome, {session?.user?.name}!</h1>
         {/* Dashboard Cards */}

@@ -59,7 +59,7 @@ const EditCategory = ({ setEdit, id }) => {
       <p className="text-[24px] font-semibold text-center">Add Category</p>
 
       {loading ? (
-        <p>Loading..</p>
+        <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
       ) : (
         <>
           <div className="flex flex-col w-full gap-2">

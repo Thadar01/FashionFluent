@@ -98,7 +98,9 @@ const Suppliers = () => {
 
   return (
     <div className="flex">
-      <NavBar activeButton={index} />
+      <div className="w-[16%]">
+        <NavBar activeButton={index} />
+      </div>
       <div className="w-full m-4 flex flex-col gap-4">
         <div className="w-full flex justify-between">
           <h1 className="text-[30px] font-semibold">Suppliers</h1>
@@ -153,7 +155,7 @@ const Suppliers = () => {
 
           {supplier.length === 0 ? (
             loading ? (
-              <p className="p-4">loading...</p>
+              <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
             ) : (
               <p className="p-4">No supplier available</p>
             )

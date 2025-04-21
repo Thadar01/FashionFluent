@@ -146,12 +146,14 @@ const EditProduct = () => {
 
   return (
     <div className="flex">
-      <NavBar />
+      <div className="w-[16%]">
+        <NavBar />
+      </div>
       <div className="p-6 w-[400px] flex flex-col gap-4 ">
         {/* Title */}
         <h1 className="text-[24px] font-semibold ">Add Product</h1>
         {loading ? (
-          <p>loading...</p>
+          <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
         ) : (
           <>
             <div className="flex flex-col w-full gap-2">
@@ -253,7 +255,7 @@ const EditProduct = () => {
             <div className="flex flex-col w-full gap-2">
               <label className="text-sm font-medium">Category</label>
               {loading ? (
-                <p>Loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : error ? (
                 <p className="text-red-500">{error}</p>
               ) : (
@@ -277,7 +279,7 @@ const EditProduct = () => {
             <div className="flex flex-col w-full gap-2">
               <label className="text-sm font-medium">Promotion</label>
               {loading2 ? (
-                <p>Loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : error ? (
                 <p className="text-red-500">{error}</p>
               ) : (

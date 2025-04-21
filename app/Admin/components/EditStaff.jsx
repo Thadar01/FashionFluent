@@ -62,12 +62,14 @@ const EditStaff = () => {
 
   return (
     <div className="flex">
-      <NavBar />
+      <div className="w-[16%]">
+        <NavBar />
+      </div>
       <div className="m-4 flex flex-col gap-5 w-[400px]">
         {/* Title */}
         <p className="text-[30px] font-semibold">Edit Staff</p>
         {loading ? (
-          <p>loading</p>
+          <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
         ) : (
           <>
             {" "}

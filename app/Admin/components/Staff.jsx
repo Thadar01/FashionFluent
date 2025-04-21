@@ -88,7 +88,9 @@ const Staff = () => {
 
   return (
     <div className="flex ">
-      <NavBar activeButton={index} />
+      <div className="w-[16%]">
+        <NavBar activeButton={index} />
+      </div>
       {session?.user?.role === "Admin" ? (
         <div className="w-full m-4 flex flex-col gap-4">
           <h1 className="text-[30px] font-semibold">Staff</h1>

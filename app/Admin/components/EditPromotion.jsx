@@ -113,7 +113,7 @@ const EditPromotion = ({ setEdit, id }) => {
       <h2 className="text-[24px] font-semibold text-center">Edit Promotion</h2>
 
       {loading ? (
-        <p>Loading ...</p>
+        <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
       ) : (
         <>
           {/* Promotion Title */}

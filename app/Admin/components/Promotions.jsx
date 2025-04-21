@@ -107,7 +107,9 @@ const Promotions = () => {
     <div>
       {/* Background Content (will be blurred when model or edit is open) */}
       <div className={`flex ${isModel || edit ? "filter blur-sm" : ""}`}>
-        <NavBar />
+        <div className="w-[16%]">
+          <NavBar />
+        </div>
         <div className="w-full m-4 flex flex-col gap-4">
           {/* Header Section */}
           <div className="flex justify-between items-center">
@@ -171,7 +173,7 @@ const Promotions = () => {
             </div>
             {filteredPromotions.length === 0 ? (
               loading ? (
-                <p className="p-4">loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : (
                 <p className="p-4">No promotion available</p>
               )

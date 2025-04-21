@@ -110,6 +110,7 @@ const NavBar = () => {
             >
               Products
             </Link>
+
             <button onClick={() => setIsProductDD(!isProductDD)}>
               {isProductDD ? (
                 <svg
@@ -167,6 +168,16 @@ const NavBar = () => {
               </div>
             )}
           </div>
+          <Link
+            href={"/User/OrderHistory"}
+            className={`relative w-[10%] mt-10 after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
+              pathname === "/User"
+                ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
+                : "after:bg-[#FFD2A2] after:scale-x-0 hover:after:scale-x-100"
+            }`}
+          >
+            Order History
+          </Link>
           <Link
             href={""}
             className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
@@ -333,6 +344,16 @@ const NavBar = () => {
           )}
         </div>
         <Link
+          href={"/User/OrderHistory"}
+          className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
+            pathname === "/User/OrderHistory"
+              ? "after:bg-[#FFD2A2] after:scale-x-100" // Active link underline
+              : "after:bg-[#FFD2A2] after:scale-x-0 hover:after:scale-x-100"
+          }`}
+        >
+          Order History
+        </Link>
+        <Link
           href={"/User/Feedbacks"}
           className={`relative after:block after:content-[''] after:absolute after:left-0 after:w-full after:h-[2px] after:bottom-[-4px] after:transition-transform after:duration-300 ${
             pathname === "/User/Feedbacks"
@@ -489,18 +510,18 @@ const NavBar = () => {
             />
           </svg>
           {searchResults.length > 0 && (
-            <div className="absolute bg-white border border-gray-200 rounded-md shadow-md mt-1 w-full z-50">
+            <div className="absolute bg-white border border-gray-200 rounded-md shadow-md mt-1 w-full z-50 flex flex-col justify-start items-start gap-3">
               {searchResults.map((item) => (
                 <div
                   key={item.ProductID}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  className="p-2 hover:bg-gray-100 cursor-pointer w-full "
                 >
                   <Link
                     href={{
                       pathname: "/User/ProductDetails",
                       query: { productID: item.ProductID },
                     }}
-                    className="flex justify-around items-center"
+                    className="flex items-center gap-3 text-[13px] w-full"
                   >
                     <Image
                       src={item.Image}
@@ -518,12 +539,22 @@ const NavBar = () => {
         </div>
 
         {status === "authenticated" ? (
-          <button
+          <svg
             onClick={() => signOut({ callbackUrl: "/User" })}
-            className="md:w-[40%] lg:w-[20%] relative border-2 border-[#5A4A2A] py-1 rounded-xl hover:bg-[#CFB191]"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6  cursor-pointer text-red-400"
+            title="Logout"
           >
-            Sign out
-          </button>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
         ) : (
           <Link
             href="/User/SignIn"

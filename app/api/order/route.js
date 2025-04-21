@@ -2,7 +2,7 @@ import db from '../../../lib/db';
 
 export async function POST(request) {
     try {
-        const { orderDate, totalQuantity, totalPrice, deliveryID, address, phoneNo, email, orderStatus, carts } = await request.json();
+        const { orderDate, totalQuantity, totalPrice, deliveryID, address, phoneNo, email, orderStatus, carts ,id} = await request.json();
 
         // Validate products array
         for (const cart of carts) {
@@ -31,10 +31,10 @@ export async function POST(request) {
 
             // Insert the order data into the orders table
             const insertOrderQuery = `
-                INSERT INTO orders (OrderID, OrderDate, TotalQuantity, TotalPrice, DeliveryID, Address, PhoneNo, Email, OrderStatus)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO orders (OrderID, OrderDate, TotalQuantity, TotalPrice, DeliveryID, Address, PhoneNo, Email, OrderStatus,CustomerID)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
             `;
-            const orderValues = [newOrderID, orderDate, totalQuantity, totalPrice, deliveryID, address, phoneNo, email, orderStatus];
+            const orderValues = [newOrderID, orderDate, totalQuantity, totalPrice, deliveryID, address, phoneNo, email, orderStatus,id];
             await db.execute(insertOrderQuery, orderValues);
 
             // Insert the ordered products into the orderdetails table

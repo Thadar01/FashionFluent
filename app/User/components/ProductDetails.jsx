@@ -197,9 +197,12 @@ const ProductDetails = () => {
                 <p>No sizes available</p>
               )}
             </div>
+            {product.Stock === 0 && (
+              <p className="text-red-600 text-[16px]">Out of Stock</p>
+            )}
             {/* Quantity Selection */}
             <div className="flex gap-3 mt-5">
-              <div className="flex border-2 border-gray-400 py-1 w-[20%] lg:w-[15%] justify-around">
+              <div className="flex border-2 border-gray-400 py-1 w-[20%] lg:w-[15%] justify-around rounded-md">
                 <button
                   onClick={() => setNumber((prevNumber) => prevNumber - 1)}
                   disabled={number <= 1}
@@ -224,8 +227,11 @@ const ProductDetails = () => {
                     />
                   </svg>
                 </button>
-
-                <p className="text-[20px]">{number}</p>
+                {product.Stock === 0 ? (
+                  <p className="text-[20px] text-gray-500">0</p>
+                ) : (
+                  <p className="text-[20px]">{number}</p>
+                )}
 
                 <button
                   onClick={() => setNumber((prevNumber) => prevNumber + 1)}
@@ -252,9 +258,15 @@ const ProductDetails = () => {
                   </svg>
                 </button>
               </div>
+
               <button
+                disabled={product.Stock === 0}
                 onClick={handleAddToCart}
-                className="bg-black text-white p-3 w-[70%]"
+                className={`p-3 w-[70%] text-white rounded-xl ${
+                  product.Stock === 0
+                    ? "bg-gray-500"
+                    : "bg-black hover:bg-gray-800"
+                }`}
               >
                 Add to Cart
               </button>

@@ -60,7 +60,9 @@ const Customer = () => {
   return (
     <div>
       <div className="flex">
-        <NavBar />
+        <div className="w-[16%]">
+          <NavBar />
+        </div>
         <div className="w-full m-4 flex flex-col gap-4">
           {/* Header Section */}
           <div className="w-full flex justify-between">
@@ -104,7 +106,7 @@ const Customer = () => {
             </div>
             {filteredCustomers.length === 0 ? (
               loading ? (
-                <p className="p-4">Loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : (
                 <p className="p-4">No customers available</p>
               )

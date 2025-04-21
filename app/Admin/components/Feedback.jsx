@@ -55,7 +55,9 @@ const Feedback = () => {
   return (
     <div>
       <div className="flex">
-        <NavBar />
+        <div className="w-[16%]">
+          <NavBar />
+        </div>
         <div className="w-full m-4 flex flex-col gap-4">
           {/* Header Section */}
           <div className="w-full flex justify-between">
@@ -66,7 +68,7 @@ const Feedback = () => {
           <div className="w-full">
             {feedback.length === 0 ? (
               loading ? (
-                <p className="p-4">Loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : (
                 <p className="p-4">No feedback available</p>
               )

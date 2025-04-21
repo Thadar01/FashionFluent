@@ -61,7 +61,9 @@ const CreateSupplier = () => {
       }}
       className="flex"
     >
-      <NavBar />
+      <div className="w-[16%]">
+        <NavBar />
+      </div>
       <div className="m-4 flex flex-col gap-5 w-[400px]">
         {/* Title */}
         <p className="text-[30px] font-semibold">Add Supplier</p>

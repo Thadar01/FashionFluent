@@ -60,7 +60,9 @@ const Order = () => {
 
   return (
     <div className="flex">
-      <NavBar />
+      <div className="w-[16%]">
+        <NavBar />
+      </div>
       <div className="p-5 w-full relative">
         <h2 className="text-[30px] font-semibold mb-4">Order Confirmation</h2>
 

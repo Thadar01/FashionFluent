@@ -230,7 +230,7 @@ const CreateProduct = () => {
       <div className="flex flex-col w-full gap-2">
         <label className="text-sm font-medium">Category</label>
         {loading ? (
-          <p>Loading...</p>
+          <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (
@@ -256,7 +256,7 @@ const CreateProduct = () => {
       <div className="flex flex-col w-full gap-2">
         <label className="text-sm font-medium">Promotion</label>
         {loading2 ? (
-          <p>Loading...</p>
+          <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (

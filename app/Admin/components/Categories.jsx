@@ -107,7 +107,9 @@ const Categories = () => {
   return (
     <div>
       <div className={`flex ${isModel || edit ? "filter blur-sm" : ""}`}>
-        <NavBar />
+        <div className="w-[16%]">
+          <NavBar />
+        </div>{" "}
         <div className="w-full m-4 flex flex-col gap-4">
           {/* Background Content (will be blurred when model is open) */}
           <div className="w-full flex justify-between">
@@ -151,7 +153,7 @@ const Categories = () => {
             </div>
             {category.length === 0 ? (
               loading ? (
-                <p className="p-4">loading...</p>
+                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
               ) : (
                 <p className="p-4">No category available</p>
               )

@@ -64,7 +64,10 @@ const Product = () => {
       <div className="flex w-full justify-center items-center my-4">
         {filteredProducts.length === 0 ? (
           loading ? (
-            <p className="p-4">Loading...</p>
+            <div className="min-h-[60vh] flex justify-center items-center">
+              {" "}
+              <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+            </div>
           ) : (
             <p className="p-4">No products available</p>
           )
