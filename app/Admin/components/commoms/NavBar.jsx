@@ -101,12 +101,6 @@ export const NavBar = () => {
     }
   }, [status, router]);
 
-  if (status === "loading") {
-    return (
-      <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
-    );
-  }
-
   if (status === "unauthenticated") {
     return null;
   }
@@ -121,10 +115,15 @@ export const NavBar = () => {
           height={50}
           alt="profile"
         />
-        <div className="font-semibold">
-          <h1 className="text-[20px]">{session.user.name}</h1>
-          <h1 className="text-[12px]">{session.user.role}</h1>
-        </div>
+        {status === "loading" ? (
+          <div className="animate-spin rounded-full border-t-2 border-blue-500 w-3 h-3"></div>
+        ) : (
+          <div className="font-semibold">
+            <h1 className="text-[20px]">{session.user.name}</h1>
+            <h1 className="text-[12px]">{session.user.role}</h1>
+          </div>
+        )}
+
         <svg
           onClick={() => signOut({ callbackUrl: "/Admin" })}
           xmlns="http://www.w3.org/2000/svg"

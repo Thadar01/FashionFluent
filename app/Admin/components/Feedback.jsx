@@ -61,7 +61,7 @@ const Feedback = () => {
         <div className="w-full m-4 flex flex-col gap-4">
           {/* Header Section */}
           <div className="w-full flex justify-between">
-            <h1 className="text-[30px] font-semibold">feedback</h1>
+            <h1 className="text-[30px] font-semibold">Feedback</h1>
           </div>
 
           {/* feedback Table */}

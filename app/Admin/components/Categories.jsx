@@ -146,7 +146,7 @@ const Categories = () => {
             </svg>
           </div>
           <div className="w-[50%]">
-            <div className="grid grid-cols-1 w-[70%]">
+            <div className="grid grid-cols-1 w-[50%]">
               <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
                 Category Name
               </div>
@@ -161,7 +161,7 @@ const Categories = () => {
               <div>
                 {category.map((cat) => (
                   <div key={cat.CategoryID} className="flex">
-                    <div className="grid grid-cols-1 w-[70%]">
+                    <div className="grid grid-cols-1 w-[50%]">
                       <div className="border border-black text-center py-2">
                         {cat.CategoryName}
                       </div>

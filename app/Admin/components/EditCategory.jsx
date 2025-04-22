@@ -56,7 +56,7 @@ const EditCategory = ({ setEdit, id }) => {
   return (
     <div className="border-2 border-black p-6 w-[400px] flex flex-col gap-4 rounded-lg bg-white shadow-lg">
       {/* Title */}
-      <p className="text-[24px] font-semibold text-center">Add Category</p>
+      <p className="text-[24px] font-semibold text-center">Edit Category</p>
 
       {loading ? (
         <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>

@@ -132,9 +132,17 @@ const Order = () => {
                     {order.PhoneNo}
                   </td>
                   <td className="border border-gray-500 p-2">{order.Email}</td>
-                  <td className="border border-gray-500 p-2">
-                    <button onClick={() => handleUpdate(order.OrderID)}>
-                      {order.OrderStatus === 0 ? "Confirm" : "Confirmed"}
+                  <td className=" p-2 flex justify-center">
+                    <button
+                      onClick={() => handleUpdate(order.OrderID)}
+                      disabled={order.OrderStatus === 1}
+                      className={`px-4 py-1 rounded-md font-semibold ${
+                        order.OrderStatus === 0
+                          ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                          : "bg-green-500 text-white"
+                      }`}
+                    >
+                      {order.OrderStatus === 0 ? "Pending..." : "Confirmed"}
                     </button>
                   </td>
                 </tr>

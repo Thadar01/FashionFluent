@@ -93,7 +93,7 @@ const Staff = () => {
       </div>
       {session?.user?.role === "Admin" ? (
         <div className="w-full m-4 flex flex-col gap-4">
-          <h1 className="text-[30px] font-semibold">Staff</h1>
+          <h1 className="text-[30px] font-semibold">Staffs</h1>
           <div className="relative w-[20%] my-3">
             <input
               ref={searchInputRef}

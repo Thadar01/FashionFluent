@@ -148,7 +148,7 @@ const Suppliers = () => {
             <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
               Email
             </div>
-            <div className="font-semibold border border-black py-2 bg-[#ceb8a1] text-center">
+            <div className="font-semibold border border-black py-2 px-8 bg-[#ceb8a1] text-center">
               Address
             </div>
           </div>
@@ -173,11 +173,11 @@ const Suppliers = () => {
                     <div className="border border-black text-center py-2">
                       {sup.SupplierEmail}
                     </div>
-                    <div className="border border-black text-center py-2">
+                    <div className="border border-black px-2 py-2 ">
                       {sup.SupplierAddress}
                     </div>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end items-center">
                     <button
                       className="ml-2 text-red-600 hover:underline "
                       onClick={() => handleDelete(sup.SupplierID)}
@@ -188,7 +188,7 @@ const Suppliers = () => {
                       href={`/Admin/MainDashboard/Suppliers/CreateSupplier?id=${
                         sup.SupplierID
                       }&edit=${true}`}
-                      className="ml-2 text-blue-600 hover:underline  pt-2 "
+                      className="ml-2 text-blue-600 hover:underline   "
                     >
                       Edit
                     </Link>

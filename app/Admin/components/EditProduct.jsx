@@ -145,13 +145,19 @@ const EditProduct = () => {
   };
 
   return (
-    <div className="flex">
+    <form
+      className="flex"
+      onSubmit={(e) => {
+        e.preventDefault(); // Prevents default form submission
+        handleEditProduct();
+      }}
+    >
       <div className="w-[16%]">
         <NavBar />
       </div>
       <div className="p-6 w-[400px] flex flex-col gap-4 ">
         {/* Title */}
-        <h1 className="text-[24px] font-semibold ">Add Product</h1>
+        <h1 className="text-[24px] font-semibold ">Edit Product</h1>
         {loading ? (
           <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
         ) : (
@@ -164,16 +170,18 @@ const EditProduct = () => {
                   setProduct({ ...product, title: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             <div className="flex flex-col w-full gap-2">
               <label className="text-sm font-medium">Description</label>
-              <input
+              <textarea
                 value={product.description}
                 onChange={(e) =>
                   setProduct({ ...product, description: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             {/* Price Input */}
@@ -185,6 +193,7 @@ const EditProduct = () => {
                   setProduct({ ...product, price: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             {/* Gender Radio Buttons */}
@@ -202,6 +211,7 @@ const EditProduct = () => {
                         setProduct({ ...product, gender: e.target.value })
                       }
                       className="focus:ring-[#f5cba9]"
+                      required
                     />
                     <span>{g}</span>
                   </label>
@@ -217,6 +227,7 @@ const EditProduct = () => {
                   setProduct({ ...product, colors: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -227,6 +238,7 @@ const EditProduct = () => {
                   setProduct({ ...product, sizes: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             {/* Stock Input */}
@@ -239,6 +251,7 @@ const EditProduct = () => {
                   setProduct({ ...product, stocks: e.target.value })
                 }
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             {/* Image Upload */}
@@ -249,6 +262,7 @@ const EditProduct = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                required
               />
             </div>
             {/* Category Dropdown */}
@@ -265,6 +279,7 @@ const EditProduct = () => {
                     setProduct({ ...product, categoryID: e.target.value })
                   }
                   className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
+                  required
                 >
                   <option value="">Select Category</option>
                   {category.map((c) => (
@@ -288,6 +303,7 @@ const EditProduct = () => {
                   onChange={(e) =>
                     setProduct({ ...product, promotionID: e.target.value })
                   }
+                  required
                   className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
                 >
                   <option value="">Select Promotion</option>
@@ -302,7 +318,7 @@ const EditProduct = () => {
             {/* Buttons */}
             <div className="flex justify-end gap-4 mt-4">
               <button
-                onClick={handleEditProduct}
+                type="submit"
                 className="bg-[#f5cba9] px-4 py-2 rounded-xl font-semibold border-2 border-black hover:bg-[#f6be90]"
               >
                 Edit
@@ -321,7 +337,7 @@ const EditProduct = () => {
 
         {/* Title Input */}
       </div>
-    </div>
+    </form>
   );
 };
 
