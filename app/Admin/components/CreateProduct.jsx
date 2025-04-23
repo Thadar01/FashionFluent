@@ -133,6 +133,7 @@ const CreateProduct = () => {
         <input
           value={product.title}
           onChange={(e) => setProduct({ ...product, title: e.target.value })}
+          placeholder="Product Title"
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
         />
@@ -146,6 +147,7 @@ const CreateProduct = () => {
           }
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Description"
         />
       </div>
       {/* Price Input */}
@@ -156,6 +158,7 @@ const CreateProduct = () => {
           onChange={(e) => setProduct({ ...product, price: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Price"
         />
       </div>
 
@@ -184,21 +187,23 @@ const CreateProduct = () => {
 
       {/* Color Input */}
       <div className="flex flex-col w-full gap-2">
-        <label className="text-sm font-medium">Color</label>
+        <label className="text-sm font-medium">Colors</label>
         <input
           value={product.colors}
           onChange={(e) => setProduct({ ...product, colors: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Colors"
         />
       </div>
       <div className="flex flex-col w-full gap-2">
-        <label className="text-sm font-medium">Size</label>
+        <label className="text-sm font-medium">Sizes</label>
         <input
           value={product.sizes}
           onChange={(e) => setProduct({ ...product, sizes: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="Sizes"
         />
       </div>
 
@@ -211,6 +216,7 @@ const CreateProduct = () => {
           onChange={(e) => setProduct({ ...product, stocks: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded focus:outline-none focus:border-[#f5cba9]"
           required
+          placeholder="0"
         />
       </div>
 

@@ -17,6 +17,8 @@ const Checkout = () => {
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const [formData, setFormData] = useState({
     id: session?.user.id || "",
     name: session?.user.name || "",
@@ -92,7 +94,7 @@ const Checkout = () => {
       });
 
       if (response.ok) {
-        alert("Order successful!");
+        setShowSuccessModal(true); // Show modal
         clearCart();
         setFormData((prev) => ({
           ...prev,
@@ -101,7 +103,6 @@ const Checkout = () => {
           deliveryMethod: "",
         }));
         setDeliveryFee(0);
-        router.push("/User/Products");
       } else {
         const errorData = await response.json();
         alert(errorData.error || "Failed to process order.");
@@ -277,6 +278,25 @@ const Checkout = () => {
             <h3 className="font-semibold text-lg">Total: {finalTotal} MMK</h3>
           </div>
         </div>
+        {showSuccessModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded shadow-lg text-center max-w-sm w-full">
+              <h2 className="text-xl font-bold mb-4">Order Successful!</h2>
+              <p className="mb-6">
+                Thank you for your order. We’ll process it shortly.
+              </p>
+              <button
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  router.push("/User/OrderHistory");
+                }}
+                className="bg-[#e3a775] hover:bg-[#c98b58] text-white py-2 px-4 rounded"
+              >
+                Track Your Order
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <Footer />

@@ -344,10 +344,10 @@ const PurchaseForm = () => {
                                 {product.quantity}
                               </td>
                               <td className="py-2 px-4 border-b">
-                                {product.price}
+                                {product.price} MMK
                               </td>
                               <td className="py-2 px-4 border-b">
-                                {product.totalPrice}
+                                {product.totalPrice} MMK
                               </td>
                               <td className="py-2 px-4 border-b flex ">
                                 <svg
