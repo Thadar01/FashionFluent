@@ -10,13 +10,28 @@ const Footer = () => {
         {/* Shop Column */}
         <div className="flex flex-col gap-4 text-center sm:text-left">
           <h2 className="text-gray-600 text-[18px] font-semibold">Shop</h2>
-          <Link href={""} className="hover:underline">
+          <Link
+            href={{ pathname: "/User/Products", query: { gender: "Male" } }}
+            className="hover:underline"
+          >
             Men
           </Link>
-          <Link href={""} className="hover:underline">
+          <Link
+            href={{
+              pathname: "/User/Products",
+              query: { gender: "Female" },
+            }}
+            className="hover:underline"
+          >
             Women
           </Link>
-          <Link href={""} className="hover:underline">
+          <Link
+            href={{
+              pathname: "/User/Products",
+              query: { gender: "Unisex" },
+            }}
+            className="hover:underline"
+          >
             Unisex
           </Link>
         </div>
@@ -24,13 +39,13 @@ const Footer = () => {
         {/* Company Column */}
         <div className="flex flex-col gap-4 text-center sm:text-left">
           <h2 className="text-gray-600 text-[18px] font-semibold">Company</h2>
-          <Link href={""} className="hover:underline">
+          <Link href={"/User/AboutUs"} className="hover:underline">
             About Us
           </Link>
-          <Link href={""} className="hover:underline">
+          <Link href={"/User/QA"} className="hover:underline">
             Q&A
           </Link>
-          <Link href={""} className="hover:underline">
+          <Link h href={"/User/PrivacyPolicy"} className="hover:underline">
             Privacy & Policy
           </Link>
         </div>
@@ -77,7 +92,7 @@ const Footer = () => {
             <p>+959647352267</p>
           </div>
           <div className="flex gap-4 justify-center sm:justify-start mt-4">
-            <Link href={""}>
+            <Link href={"https://www.facebook.com/"}>
               <Image
                 src={"/assets/facebook.svg"}
                 width={30}
@@ -85,7 +100,7 @@ const Footer = () => {
                 alt="facebook"
               />
             </Link>
-            <Link href={""}>
+            <Link href={"https://www.instagram.com/accounts/login/?hl=en"}>
               <Image
                 src={"/assets/instagram.svg"}
                 width={30}

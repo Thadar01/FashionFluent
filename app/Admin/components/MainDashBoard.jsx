@@ -40,7 +40,7 @@ const MainDashBoard = () => {
 
         {loading ? (
           <div className="mt-10 text-center text-lg text-gray-500">
-            <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
+            <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-6 mt-6">

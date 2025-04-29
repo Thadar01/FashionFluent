@@ -139,7 +139,7 @@ const Delivery = () => {
             </div>
             {filteredDelivery.length === 0 ? (
               loading ? (
-                <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
+                <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <p className="p-4">No delivery available</p>
               )

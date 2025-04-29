@@ -7,22 +7,28 @@ const Order = () => {
   const [orders, setorders] = useState([]);
   const [searchDate, setSearchDate] = useState("");
   const [searchQuery, setSearchQuery] = useState(""); // Stores the final search date
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const fetchorders = async (date = "") => {
+    setLoading(true); // Set loading to true when fetching starts
     try {
       const response = await fetch(`/api/order?date=${date}`);
       const data = await response.json();
       setorders(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false); // Set loading to false when fetching completes (success or error)
     }
   };
+
   useEffect(() => {
     fetchorders();
     const interval = setInterval(fetchorders, 5000);
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+
   const handleSearchClick = () => {
     if (searchDate !== searchQuery) {
       setSearchQuery(searchDate); // Update the query state
@@ -96,66 +102,72 @@ const Order = () => {
           </button>
         </div>
 
-        <table className="border-collapse border border-gray-500 w-full">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-500 p-2">Order ID</th>
-              <th className="border border-gray-500 p-2">Order Date</th>
-              <th className="border border-gray-500 p-2">Total Quantity</th>
-              <th className="border border-gray-500 p-2">Total Price</th>
-              <th className="border border-gray-500 p-2">Address</th>
-              <th className="border border-gray-500 p-2">Phone No</th>
-              <th className="border border-gray-500 p-2">Email</th>
-              <th className="border border-gray-500 p-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.length > 0 ? (
-              orders.map((order) => (
-                <tr key={order.OrderID} className="border border-gray-500">
-                  <td className="border border-gray-500 p-2">
-                    {order.OrderID}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {order.OrderDate}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {order.TotalQuantity}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {order.TotalPrice}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {order.Address}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {order.PhoneNo}
-                  </td>
-                  <td className="border border-gray-500 p-2">{order.Email}</td>
-                  <td className=" p-2 flex justify-center">
-                    <button
-                      onClick={() => handleUpdate(order.OrderID)}
-                      disabled={order.OrderStatus === 1}
-                      className={`px-4 py-1 rounded-md font-semibold ${
-                        order.OrderStatus === 0
-                          ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                          : "bg-green-500 text-white"
-                      }`}
-                    >
-                      {order.OrderStatus === 0 ? "Pending..." : "Confirmed"}
-                    </button>
+        {loading ? (
+          <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+        ) : (
+          <table className="border-collapse border border-gray-500 w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-500 p-2">Order ID</th>
+                <th className="border border-gray-500 p-2">Order Date</th>
+                <th className="border border-gray-500 p-2">Total Quantity</th>
+                <th className="border border-gray-500 p-2">Total Price</th>
+                <th className="border border-gray-500 p-2">Address</th>
+                <th className="border border-gray-500 p-2">Phone No</th>
+                <th className="border border-gray-500 p-2">Email</th>
+                <th className="border border-gray-500 p-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.length > 0 ? (
+                orders.map((order) => (
+                  <tr key={order.OrderID} className="border border-gray-500">
+                    <td className="border border-gray-500 p-2">
+                      {order.OrderID}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.OrderDate}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.TotalQuantity}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.TotalPrice}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.Address}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.PhoneNo}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {order.Email}
+                    </td>
+                    <td className=" p-2 flex justify-center">
+                      <button
+                        onClick={() => handleUpdate(order.OrderID)}
+                        disabled={order.OrderStatus === 1}
+                        className={`px-4 py-1 rounded-md font-semibold ${
+                          order.OrderStatus === 0
+                            ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                            : "bg-green-500 text-white"
+                        }`}
+                      >
+                        {order.OrderStatus === 0 ? "Pending..." : "Confirmed"}
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="p-4 text-center">
+                    No orders found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="p-4 text-center">
-                  No orders found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

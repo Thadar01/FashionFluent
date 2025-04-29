@@ -83,7 +83,7 @@ const Product = () => {
                     pathname: "/User/ProductDetails",
                     query: { productID: p.ProductID },
                   }}
-                  className="w-full h-[300px] bg-red-400 transition-all duration-300 hover:opacity-70"
+                  className="w-full h-[300px]  transition-all duration-300 hover:opacity-70"
                 >
                   <Image
                     src={p.Image}

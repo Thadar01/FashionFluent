@@ -10,7 +10,7 @@ const Feedbacks = () => {
   const [feedback, setFeedback] = useState("");
   const [feedbacks, setFeedbacks] = useState([]);
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [editingFeedbackID, setEditingFeedbackID] = useState(null);
   const { data: session } = useSession();
 
@@ -143,7 +143,9 @@ const Feedbacks = () => {
           </button>
           {feedbacks.length === 0 ? (
             loading ? (
-              <div className="animate-spin rounded-full border-t-2 border-blue-500 w-8 h-8"></div>
+              <div className="flex justify-center items-center">
+                <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+              </div>
             ) : (
               <p className="p-4">No feedback available</p>
             )

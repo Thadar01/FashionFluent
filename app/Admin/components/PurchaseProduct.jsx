@@ -7,18 +7,22 @@ const PurchaseProduct = () => {
   const [purchases, setPurchases] = useState([]);
   const [searchDate, setSearchDate] = useState("");
   const [searchQuery, setSearchQuery] = useState(""); // Stores the final search date
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     fetchPurchases(); // Fetch all purchases initially
   }, []);
 
   const fetchPurchases = async (date = "") => {
+    setLoading(true); // Set loading to true when fetching starts
     try {
       const response = await fetch(`/api/purchase?date=${date}`);
       const data = await response.json();
       setPurchases(data);
     } catch (error) {
       console.error("Error fetching purchases:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,7 +36,7 @@ const PurchaseProduct = () => {
   const handleShowAll = () => {
     setSearchDate(""); // Clear the date
     setSearchQuery(""); // Reset the search query
-    fetchPurchases(); // Fetch all purchases again
+    fetchPurchases();
   };
 
   return (
@@ -78,53 +82,57 @@ const PurchaseProduct = () => {
           </button>
         </div>
 
-        <table className="border-collapse border border-gray-500 w-full">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-500 p-2">Purchase ID</th>
-              <th className="border border-gray-500 p-2">Total Quantity</th>
-              <th className="border border-gray-500 p-2">Total Price</th>
-              <th className="border border-gray-500 p-2">Date</th>
-              <th className="border border-gray-500 p-2">Supplier ID</th>
-              <th className="border border-gray-500 p-2">Staff ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {purchases.length > 0 ? (
-              purchases.map((purchase) => (
-                <tr
-                  key={purchase.PurchaseID}
-                  className="border border-gray-500"
-                >
-                  <td className="border border-gray-500 p-2">
-                    {purchase.PurchaseID}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {purchase.TotalQuantity}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {purchase.TotalPrice}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {purchase.Date}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {purchase.SupplierID}
-                  </td>
-                  <td className="border border-gray-500 p-2">
-                    {purchase.StaffID}
+        {loading ? (
+          <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+        ) : (
+          <table className="border-collapse border border-gray-500 w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-500 p-2">Purchase ID</th>
+                <th className="border border-gray-500 p-2">Total Quantity</th>
+                <th className="border border-gray-500 p-2">Total Price</th>
+                <th className="border border-gray-500 p-2">Date</th>
+                <th className="border border-gray-500 p-2">Supplier ID</th>
+                <th className="border border-gray-500 p-2">Staff ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {purchases.length > 0 ? (
+                purchases.map((purchase) => (
+                  <tr
+                    key={purchase.PurchaseID}
+                    className="border border-gray-500"
+                  >
+                    <td className="border border-gray-500 p-2">
+                      {purchase.PurchaseID}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {purchase.TotalQuantity}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {purchase.TotalPrice}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {purchase.Date}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {purchase.SupplierID}
+                    </td>
+                    <td className="border border-gray-500 p-2">
+                      {purchase.StaffID}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="p-4 text-center">
+                    No purchases found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="p-4 text-center">
-                  No purchases found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
