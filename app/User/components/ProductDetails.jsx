@@ -93,7 +93,7 @@ const ProductDetails = () => {
     if (selectedColor === "") {
       window.alert("Please Select the desired color");
     } else if (selectedSize === "") {
-      window.alert("Please select the size");
+      window.alert("Please select the desired size");
     } else {
       const cartProduct = {
         id: product.ProductID,

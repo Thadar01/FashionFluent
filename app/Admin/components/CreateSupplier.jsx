@@ -22,11 +22,11 @@ const CreateSupplier = () => {
     }
 
     if (!email.includes("@gmail.com")) {
-      alert("Please enter a valid Gmail address");
+      alert("Please enter a valid Email address");
       return;
     }
 
-    if (phone.length < 10) {
+    if (phone.length < 12) {
       alert("Your phone number is not valid");
       return;
     }

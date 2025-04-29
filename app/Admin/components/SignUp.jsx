@@ -27,13 +27,13 @@ const SignUp = () => {
 
     if (!passwordRegex.test(passwords)) {
       alert(
-        "Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+        "Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number and a special character."
       );
       return;
     }
 
     if (passwords !== confirmPassword) {
-      alert("Passwords do not match");
+      alert("Confirm Password does not match the above Password.");
       return;
     }
 

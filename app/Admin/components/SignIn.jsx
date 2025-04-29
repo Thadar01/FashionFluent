@@ -61,7 +61,7 @@ const SignIn = () => {
           <div>
             <p>Email</p>
             <input
-              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+              className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -99,7 +99,7 @@ const SignIn = () => {
               </button>
               <input
                 type={show ? "text" : "password"}
-                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none"
+                className="border-x-0 border-t-0 border-b-2 border-black w-full pt-4 px-1 pb-1 mb-4 bg-transparent focus:outline-none focus:border-[#f8a285]"
                 value={passwords}
                 onChange={(e) => setPasswords(e.target.value)}
                 required

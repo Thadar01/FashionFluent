@@ -98,7 +98,6 @@ const SignUp = () => {
           onChange={(e) =>
             setCustomers({ ...customers, customerEmail: e.target.value })
           }
-          type="email"
           className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:border-[#eab174] outline-none"
           placeholder="Enter your email"
           required

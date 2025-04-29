@@ -79,7 +79,10 @@ const Product = () => {
                 className="bg-[#FFFAF4] rounded-xl flex flex-col items-center gap-5 shadow-xl"
               >
                 <Link
-                  href={""}
+                  href={{
+                    pathname: "/User/ProductDetails",
+                    query: { productID: p.ProductID },
+                  }}
                   className="w-full h-[300px] bg-red-400 transition-all duration-300 hover:opacity-70"
                 >
                   <Image
