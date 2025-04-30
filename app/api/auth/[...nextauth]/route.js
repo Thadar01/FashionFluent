@@ -25,7 +25,7 @@ const handler = NextAuth({
             );
             if (rows.length === 0) throw new Error("User not found");
             user = rows[0];
-            if (password !== user.CustomerPasswords) throw new Error("Invalid credentials");
+            if (password !== user.CustomerPasswords) throw new Error("Wrong Passwords");
           
   
           }else{
@@ -35,7 +35,7 @@ const handler = NextAuth({
             );
             if (rows.length === 0) throw new Error("User not found");
             user = rows[0];
-            if (password !== user.StaffPasswords) throw new Error("Invalid credentials");
+            if (password !== user.StaffPasswords) throw new Error("Wrong Passwords");
           }
          
         return {
