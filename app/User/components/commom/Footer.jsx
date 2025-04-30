@@ -45,7 +45,7 @@ const Footer = () => {
           <Link href={"/User/QA"} className="hover:underline">
             Q&A
           </Link>
-          <Link h href={"/User/PrivacyPolicy"} className="hover:underline">
+          <Link href={"/User/PrivacyPolicy"} className="hover:underline">
             Privacy & Policy
           </Link>
         </div>
