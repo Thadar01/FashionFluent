@@ -149,7 +149,7 @@ const ManageProducts = () => {
                 key={p.ProductID}
                 className="border-2 border-black rounded-xl p-3 flex flex-col items-center gap-3"
               >
-                <div className="w-full h-[300px] bg-red-400">
+                <div className="w-full h-[300px] ">
                   <Image
                     src={p.Image}
                     alt={p.ProductTitle}
